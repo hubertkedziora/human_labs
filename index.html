@@ -151,9 +151,22 @@
   }
   .illustration-frame img{
     position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
-    filter:grayscale(42%) contrast(1.15) brightness(.6) saturate(1.15);
   }
-  .illustration-frame .tint{position:absolute;inset:0;mix-blend-mode:color;background:var(--domain-glow);opacity:.55;}
+  .illustration-frame img.layer-a{
+    filter:grayscale(35%) contrast(1.25) saturate(1.6) brightness(.62);
+    transform:scale(1.04);
+  }
+  .illustration-frame img.layer-b{
+    mix-blend-mode:difference;opacity:.6;
+    filter:hue-rotate(130deg) contrast(1.6) saturate(2.1) brightness(.85) blur(.5px);
+    transform:scale(1.14) rotate(-3deg) translate(2%,-2%);
+  }
+  .illustration-frame .tint{position:absolute;inset:0;mix-blend-mode:color;background:var(--domain-glow);opacity:.45;}
+  .illustration-frame .grain{
+    position:absolute;inset:0;opacity:.18;mix-blend-mode:overlay;
+    background-image:radial-gradient(rgba(255,255,255,.9) 1px, transparent 1px);
+    background-size:3px 3px;
+  }
   .illustration-frame .vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(0,0,0,.6) 100%);}
   .illustration-frame::after{
     content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
@@ -183,12 +196,6 @@
   .dossier-body p{font-size:1rem;color:#d8d8e2;margin:0 0 16px;}
   .dossier-body p:last-of-type{margin-bottom:0;}
   .dossier-body .p-label{display:block;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:6px;}
-  .dilemma-block{
-    margin-top:22px;padding:14px 16px;border-left:2px solid var(--magenta);background:rgba(255,46,196,.05);
-  }
-  .dilemma-block .p-label{color:var(--magenta);}
-  .dilemma-block p{margin:0;color:#f0e6f5;font-style:italic;}
-
   .fact-block{
     margin-top:14px;padding:14px 16px;border-left:2px solid var(--cyan);background:rgba(33,240,255,.05);
   }
@@ -226,11 +233,11 @@
     .dossier{border:2px solid #333;box-shadow:none;background:#fff;}
     .dossier-title{color:#000;}
     .dossier-body p{color:#000;}
-    .dilemma-block,.fact-block{background:#fff;border-left:2px solid #333;}
-    .dilemma-block p,.fact-block p{color:#000;}
+    .fact-block{background:#fff;border-left:2px solid #333;}
+    .fact-block p{color:#000;}
     .dossier-footnote{color:#333;}
     .illustration-frame{background:#fff;border:1px solid #999;}
-    .illustration-frame img,.illustration-frame .tint,.illustration-frame .vignette,.illustration-frame::after,.cat-icon{display:none;}
+    .illustration-frame img,.illustration-frame .tint,.illustration-frame .grain,.illustration-frame .vignette,.illustration-frame::after,.cat-icon{display:none;}
     .sector-tag{color:#000;text-shadow:none;}
     .skills li{color:#000;}
     .skills li::before{color:#333;}
@@ -252,7 +259,7 @@
   <header>
     <span class="eyebrow mono">LAB: Young Digitals — Warsztat</span>
     <h1>Zawód<br>Przyszłości</h1>
-    <p class="lede">Podaj kilka informacji o sobie. Na podstawie realnych badań trendów rynku pracy (WEF, ILO, OECD) pokażemy Twój zawód przyszłości.</p>
+    <p class="lede">Podaj kilka informacji o sobie. Na podstawie realnych badań trendów rynku pracy pokażemy Twój zawód przyszłości.</p>
   </header>
 
   <div class="no-print" id="formCard">
@@ -307,8 +314,10 @@
       </div>
 
       <div class="illustration-frame" id="illustrationFrame">
-        <img id="jobPhoto" alt="" loading="lazy">
+        <img id="jobPhoto" class="layer-a" alt="" loading="lazy">
+        <img id="jobPhoto2" class="layer-b" alt="" loading="lazy">
         <div class="tint"></div>
+        <div class="grain"></div>
         <div class="vignette"></div>
         <svg class="cat-icon" id="catIcon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></svg>
         <span class="sector-tag mono" id="sectorTag">SEKTOR: —</span>
@@ -323,12 +332,8 @@
       <div class="dossier-body">
         <p><span class="p-label mono">Profil</span><span id="descProfile"></span></p>
         <p><span class="p-label mono">Czym się zajmujesz</span><span id="descWhat"></span></p>
+        <p><span class="p-label mono">Jak to sobie wyobrażamy</span><span id="descOutlook"></span></p>
         <p><span class="p-label mono">Dlaczego to ważny zawód</span><span id="descImportance"></span></p>
-      </div>
-
-      <div class="dilemma-block">
-        <span class="p-label mono">Dylemat</span>
-        <p id="descDilemma"></p>
       </div>
 
       <div class="fact-block">
@@ -416,7 +421,8 @@
     law:"<line x1='32' y1='8' x2='32' y2='52'/><line x1='14' y1='16' x2='50' y2='16'/><path d='M14 16l-8 18a8 8 0 0 0 16 0z'/><path d='M50 16l-8 18a8 8 0 0 0 16 0z'/><line x1='20' y1='56' x2='44' y2='56'/><line x1='32' y1='52' x2='32' y2='56'/>",
     culture:"<path d='M32 16c-6-4-14-4-20 0v30c6-4 14-4 20 0c6-4 14-4 20 0V16c-6-4-14-4-20 0Z'/><line x1='32' y1='16' x2='32' y2='46'/><polygon points='48,4 50,10 56,10 51,14 53,20 48,16 43,20 45,14 40,10 46,10'/>",
     space:"<path d='M32 4c8 8 10 20 10 30 0 6-2 10-10 16-8-6-10-10-10-16 0-10 2-22 10-30Z'/><polygon points='22,34 12,48 22,44'/><polygon points='42,34 52,48 42,44'/><circle cx='32' cy='22' r='4'/><path d='M28 50c-2 4-2 8 0 10M36 50c2 4 2 8 0 10' stroke-dasharray='2 3'/>",
-    unknown:"<path d='M10 12H4V52H10M54 12H60V52H54'/><path d='M26 23c0-5 3-8 8-8s8 3 7 7c0 5-4 6-6 9-1 2-2 4-2 6'/><circle cx='33' cy='45' r='1.8' fill='currentColor'/>"
+    unknown:"<path d='M10 12H4V52H10M54 12H60V52H54'/><path d='M26 23c0-5 3-8 8-8s8 3 7 7c0 5-4 6-6 9-1 2-2 4-2 6'/><circle cx='33' cy='45' r='1.8' fill='currentColor'/>",
+    food:"<path d='M32 58V26'/><path d='M32 26c-6-2-10-8-8-16 8 2 12 8 8 16Z'/><path d='M32 26c6-2 10-8 8-16-8 2-12 8-8 16Z'/><path d='M32 38c-5-2-8-6-7-12 6 2 9 6 7 12Z'/><path d='M32 38c5-2 8-6 7-12-6 2-9 6-7 12Z'/><path d='M18 58h28'/>"
   };
 
   var STATUS = {
@@ -445,10 +451,9 @@
         "Bez tych ról odpowiedzialność za błędy algorytmów rozmywałaby się między firmami, a nikt konkretny by jej nie ponosił.",
         "To zawody, które decydują, czy sztuczna inteligencja rozwija się w sposób, któremu można zaufać, czy tylko w sposób, który się opłaca."
       ],
-      dilemma:[
-        "Musisz zdecydować, czy system, który myli się rzadziej niż człowiek, ale inaczej, zasługuje na więcej zaufania, czy mniej.",
-        "Każda Twoja decyzja to pytanie, gdzie kończy się optymalizacja, a zaczyna krzywda, której nikt świadomie nie zaprogramował.",
-        "Bronisz ludzi przed systemami, które sami zaprojektowaliśmy, żeby były sprawiedliwsze."
+      outlook:[
+        "Wyobrażamy sobie, że w praktyce to praca bardzo blisko ekranu, ale wcale nie samotna — całe zespoły ludzi i systemów AI, które trzeba zsynchronizować jak orkiestrę, w której część muzyków nie śpi i nie robi przerw.",
+        "Podejrzewamy, że codzienność w tym zawodzie to mieszanka detektywistycznej pracy z danymi i rozmów z ludźmi, którzy nie do końca ufają maszynom — i mają ku temu dobre powody."
       ],
       funfact:[
         "Raport WEF Future of Jobs 2025 wskazuje AI i big data jako obszar generujący jedne z największych zmian netto w liczbie miejsc pracy do 2030 roku.",
@@ -463,7 +468,13 @@
         {t:"Kurator syntetycznej wiedzy", s:"yellow", d:"Oddziela wiedzę użyteczną od ogromnej ilości treści generowanych automatycznie. Buduje wiarygodne, aktualne zasoby wiedzy dla ludzi i AI."},
         {t:"Detektyw treści syntetycznych", s:"green", d:"Analizuje, czy obraz, nagranie, dokument lub komunikat jest autentyczny, zmodyfikowany albo wygenerowany. Praca może łączyć forensykę, media i cyberbezpieczeństwo."},
         {t:"Projektant pamięci AI", s:"blue", d:"Projektuje, co system AI powinien pamiętać, czego zapominać i jak zarządzać długoterminowym kontekstem użytkownika lub organizacji."},
-        {t:"Mediator człowiek–algorytm", s:"blue", d:"Pomaga rozwiązywać spory, w których decyzja systemu wpływa na człowieka: kredyt, zatrudnienie, ubezpieczenie, diagnozę czy dostęp do usług."}
+        {t:"Mediator człowiek–algorytm", s:"blue", d:"Pomaga rozwiązywać spory, w których decyzja systemu wpływa na człowieka: kredyt, zatrudnienie, ubezpieczenie, diagnozę czy dostęp do usług."},
+        {t:"Orkiestrator agentów AI", s:"yellow", d:"Projektuje i nadzoruje zespoły współpracujących ze sobą agentów AI wykonujących wieloetapowe zadania biznesowe. Odpowiada za podział pracy między agentami, punkty kontroli człowieka oraz eskalację błędów."},
+        {t:"Kurator danych treningowych", s:"yellow", d:"Selekcjonuje, czyści i etykietuje dane wykorzystywane do trenowania i dostrajania modeli AI, dbając o ich jakość, reprezentatywność i zgodność z prawem."},
+        {t:"Etyk sztucznej inteligencji", s:"yellow", d:"Doradza organizacjom przy projektowaniu systemów AI w sposób zgodny z wartościami i unikający szkodliwych skutków ubocznych — od dyskryminacji algorytmicznej po nadmierną autonomię decyzyjną maszyn."},
+        {t:"Tłumacz AI dla biznesu", s:"yellow", d:"Łączy kompetencje techniczne ze zrozumieniem procesów biznesowych, przekładając możliwości i ograniczenia modeli AI na język strategii, ryzyka i wartości dla zarządu i klientów."},
+        {t:"Weryfikator halucynacji AI", s:"blue", d:"Wyspecjalizowany kontroler jakości, który systematycznie testuje treści generowane przez AI pod kątem błędów faktograficznych, fabrykowanych źródeł i „halucynacji”."},
+        {t:"Architekt cyfrowych bliźniaków", s:"yellow", d:"Buduje wirtualne, stale aktualizowane repliki fizycznych obiektów, procesów lub organizmów (fabryki, miasta, ciała pacjenta), wykorzystywane do symulacji, prognozowania awarii i testowania scenariuszy „co by było gdyby”."}
       ]
     },
     { id:"cyber", label:"Cyberbezpieczeństwo, zaufanie i odporność", glow:"#21f0ff",
@@ -479,10 +490,9 @@
         "Bez tych ról ataki i dezinformacja rosłyby szybciej, niż społeczeństwo zdążyłoby się przed nimi bronić.",
         "To zawody, które chronią nie tylko dane, ale i zaufanie — do instytucji, mediów i siebie nawzajem."
       ],
-      dilemma:[
-        "Musisz zdecydować, ile inwigilacji jest uzasadnione w imię ochrony przed zagrożeniem, którego jeszcze nie ma.",
-        "Bronisz prawdy w świecie, w którym coraz trudniej udowodnić, że coś w ogóle się wydarzyło.",
-        "Twoja praca chroni ludzi przed technologią, która w innych rękach staje się bronią."
+      outlook:[
+        "Wyobrażamy sobie pracę w rytmie alarmów i spokoju na przemian — długie godziny cichej analizy przerywane momentami, w których liczy się każda sekunda.",
+        "Podejrzewamy, że to zawód, w którym sukces wygląda jak nic — atak, którego nikt nawet nie zauważył, bo został zatrzymany, zanim się zaczął."
       ],
       funfact:[
         "Liczba wykrytych deepfake'ów wykorzystywanych w oszustwach finansowych rośnie z roku na rok szybciej niż liczba specjalistów przeszkolonych do ich wykrywania.",
@@ -495,7 +505,9 @@
         {t:"Specjalista od cyberodporności osobistej", s:"blue", d:"Chroni cyfrowe życie jednostki: dane, reputację, tożsamość, konta, nagrania głosu i cyfrowe „sobowtóry”."},
         {t:"Łowca dezinformacji w czasie rzeczywistym", s:"yellow", d:"Wykorzystuje AI i analizę sieci do wykrywania kampanii manipulacyjnych, zanim osiągną masowy zasięg."},
         {t:"Projektant odporności społecznej", s:"blue", d:"Projektuje procedury, edukację i systemy komunikacji, które pomagają społecznościom działać podczas cyberataków, katastrof i kryzysów informacyjnych."},
-        {t:"Inspektor zgodności autonomicznych systemów", s:"yellow", d:"Sprawdza, czy robot, pojazd autonomiczny lub agent AI działa w granicach prawa, polityk i zaakceptowanego poziomu ryzyka."}
+        {t:"Inspektor zgodności autonomicznych systemów", s:"yellow", d:"Sprawdza, czy robot, pojazd autonomiczny lub agent AI działa w granicach prawa, polityk i zaakceptowanego poziomu ryzyka."},
+        {t:"Negocjator w atakach ransomware", s:"green", d:"Prowadzi w imieniu firm negocjacje z grupami przestępczymi w trakcie ataków szyfrujących dane, łącząc wiedzę techniczną, prawną i psychologię kryzysową."},
+        {t:"Kurator prywatności danych", s:"green", d:"Zarządza cyklem życia danych osobowych w organizacji — od zbierania po usuwanie — godząc wymogi regulacyjne (RODO i pochodne) z potrzebami biznesowymi analityki i personalizacji."}
       ]
     },
     { id:"health", label:"Zdrowie, długowieczność i człowiek", glow:"#ff2ec4",
@@ -511,10 +523,9 @@
         "Bez tych ról postęp medyczny trafiałby tylko do tych, którzy sami potrafią go zrozumieć i wynegocjować.",
         "To zawody, które łączą technologię z czymś, czego żaden algorytm nie zastąpi: realną troską o drugiego człowieka."
       ],
-      dilemma:[
-        "Musisz zdecydować, czyje dane zdrowotne są ważniejsze — osoby, która je wytworzyła, czy systemu, który się na nich uczy.",
-        "Bronisz dostępu do zdrowia w świecie, w którym najlepsza opieka coraz częściej zależy od tego, na co kogoś stać.",
-        "Twoja praca pomaga ludziom żyć dłużej — pytanie, czy równie dobrze."
+      outlook:[
+        "Wyobrażamy sobie, że to praca łącząca ekran pełen danych z bardzo ludzkimi rozmowami — połowa czasu to analiza, druga połowa to tłumaczenie jej komuś, kto się boi.",
+        "Podejrzewamy, że codzienność tego zawodu to więcej słuchania niż mówienia — technologia daje dane, ale to człowiek musi zdecydować, co z nimi zrobić."
       ],
       funfact:[
         "Liczba osób w wieku 80+ rośnie szybciej niż liczba specjalistów przygotowanych do projektowania usług i przestrzeni dla tej grupy.",
@@ -527,7 +538,12 @@
         {t:"Koordynator opieki człowiek–robot", s:"yellow", d:"Organizuje współpracę opiekunów, robotów i systemów AI w opiece nad osobami starszymi i wymagającymi wsparcia."},
         {t:"Technik biofabrykacji", s:"yellow", d:"Pracuje przy hodowli tkanek, drukowaniu biologicznym i produkcji materiałów inspirowanych organizmami."},
         {t:"Projektant cyfrowego dobrostanu", s:"green", d:"Projektuje technologie tak, aby wspierały koncentrację, relacje i zdrowe nawyki zamiast maksymalizować czas spędzony przed ekranem."},
-        {t:"Doradca ds. tożsamości pośmiertnej", s:"blue", d:"Pomaga ludziom i rodzinom zarządzać danymi, cyfrowymi archiwami, awatarami i AI, które mogą przetrwać biologiczne życie właściciela."}
+        {t:"Doradca ds. tożsamości pośmiertnej", s:"blue", d:"Pomaga ludziom i rodzinom zarządzać danymi, cyfrowymi archiwami, awatarami i AI, które mogą przetrwać biologiczne życie właściciela."},
+        {t:"Doradca terapii genowej", s:"yellow", d:"Pomaga pacjentom i lekarzom poruszać się w rosnącej ofercie terapii edytujących geny — wyjaśnia ryzyko, koszty i implikacje etyczne interwencji na poziomie DNA."},
+        {t:"Projektant neuroprotez", s:"blue", d:"Łączy inżynierię, neurologię i projektowanie produktu przy tworzeniu interfejsów mózg–maszyna i protez sterowanych myślą, dostosowanych indywidualnie do pacjenta."},
+        {t:"Doradca medycyny spersonalizowanej", s:"yellow", d:"Interpretuje profile genomiczne i farmakogenomiczne pacjentów, dobierając leki i dawki dostosowane do indywidualnego metabolizmu, zamiast standardowych schematów „jeden lek dla wszystkich”."},
+        {t:"Psycholog dobrostanu cyfrowego", s:"blue", d:"Pomaga klientom radzić sobie z przeciążeniem informacyjnym, uzależnieniem od asystentów AI i utratą kontaktu z rzeczywistością offline."},
+        {t:"Opiekun-technolog seniorów", s:"blue", d:"Łączy tradycyjną opiekę nad osobami starszymi z obsługą asystentów AI, robotów opiekuńczych i telemedycyny, pomagając seniorom bezpiecznie korzystać z technologii wspierających samodzielność."}
       ]
     },
     { id:"biotech", label:"Biotechnologia i nowa produkcja", glow:"#5cf7a0",
@@ -543,10 +559,9 @@
         "Bez tych ról nowe technologie produkcji rozwijałyby się bez nikogo, kto rozumie zarówno biologię, jak i inżynierię.",
         "To zawody, które decydują, czy przyszła produkcja żywności i materiałów będzie bezpieczna, zanim trafi do ludzi."
       ],
-      dilemma:[
-        "Musisz zdecydować, czy ingerować w naturę tam, gdzie sami ją zniszczyliśmy, czy pozwolić jej znaleźć nową równowagę bez nas.",
-        "Bronisz dostępu do technologii, które ktoś inny może opatentować i zamknąć dla większości.",
-        "Twoja praca tworzy rzeczy, których jeszcze nie było — pytanie, kto pierwszy zdecyduje, czy są bezpieczne."
+      outlook:[
+        "Wyobrażamy sobie laboratorium, które wygląda trochę jak warsztat, a trochę jak farma — probówki obok czegoś, co rośnie i trzeba to podlewać.",
+        "Podejrzewamy, że to praca dla kogoś cierpliwego — biologia nie przyspiesza na życzenie, nawet jeśli reszta świata już dawno przyspieszyła."
       ],
       funfact:[
         "Fermentacja precyzyjna pozwala dziś produkować białka identyczne z tymi z mięsa czy mleka bez udziału zwierząt.",
@@ -558,7 +573,8 @@
         {t:"Inżynier żywności komórkowej", s:"green", d:"Rozwija produkcję żywności z komórek, fermentacji precyzyjnej i nowych źródeł białka."},
         {t:"Projektant materiałów biologicznych", s:"yellow", d:"Tworzy materiały inspirowane naturą: samonaprawiające się, biodegradowalne lub wytwarzane przez mikroorganizmy."},
         {t:"Operator fabryki autonomicznej", s:"yellow", d:"Nadzoruje zakład, w którym większość operacji wykonują roboty i systemy AI; człowiek zarządza wyjątkami, bezpieczeństwem i optymalizacją."},
-        {t:"Archeolog danych przemysłowych", s:"blue", d:"Odnajduje wartość w starych danych produkcyjnych, dokumentacji i telemetrii, które mogą zostać wykorzystane przez nowe modele AI."}
+        {t:"Archeolog danych przemysłowych", s:"blue", d:"Odnajduje wartość w starych danych produkcyjnych, dokumentacji i telemetrii, które mogą zostać wykorzystane przez nowe modele AI."},
+        {t:"Inżynier tkankowy", s:"yellow", d:"Projektuje i hoduje tkanki oraz organy zastępcze do przeszczepów i testów leków, łącząc biologię, materiałoznawstwo i druk 3D biologiczny."}
       ]
     },
     { id:"climate", label:"Klimat, energia i planeta", glow:"#ffcf5c",
@@ -574,10 +590,9 @@
         "Bez tych ról miasta i firmy przygotowywałyby się na zmianę klimatu dopiero wtedy, gdy będzie już za późno.",
         "To zawody, od których dosłownie zależy, jak dobrze poradzimy sobie z tym, co już się dzieje z klimatem."
       ],
-      dilemma:[
-        "Musisz pogodzić to, że zasoby klimatyczne stają się towarem, z tym, że wciąż są prawem, którego nikt oficjalnie nie odebrał.",
-        "Decydujesz, czyje potrzeby są pilniejsze, gdy budżetu na adaptację nie starcza dla wszystkich naraz.",
-        "Twoja praca ratuje lokalnie — kosztem pytania, co to znaczy dla regionów, których na to nie stać."
+      outlook:[
+        "Wyobrażamy sobie pracę w terenie i przy komputerze na przemian — rano dane satelitarne, po południu buty w błocie, żeby sprawdzić, czy dane zgadzają się z rzeczywistością.",
+        "Podejrzewamy, że to zawód, w którym efekty widać dopiero po latach — trzeba wierzyć w sens tego, co się robi, na kredyt."
       ],
       funfact:[
         "Mikrosieci energetyczne pozwalają dziś całym dzielnicom funkcjonować przez kilka dni bez połączenia z główną siecią.",
@@ -590,7 +605,12 @@
         {t:"Broker elastyczności energetycznej", s:"blue", d:"Zarządza możliwością czasowego przesuwania zużycia energii przez firmy, domy i urządzenia, traktując elastyczność jak zasób gospodarczy."},
         {t:"Regeneratywny projektant krajobrazu", s:"yellow", d:"Łączy urbanistykę, rolnictwo, retencję wody i ekologię, aby przywracać zdolność środowiska do samoregeneracji."},
         {t:"Specjalista ds. cyfrowego śladu środowiskowego", s:"yellow", d:"Analizuje wpływ centrów danych, modeli AI, urządzeń i usług cyfrowych na energię, wodę i emisje."},
-        {t:"Pilot dronów ekologicznych", s:"green", d:"Steruje flotami autonomicznych dronów wykorzystywanych do monitoringu lasów, pożarów, upraw, rzek i infrastruktury."}
+        {t:"Pilot dronów ekologicznych", s:"green", d:"Steruje flotami autonomicznych dronów wykorzystywanych do monitoringu lasów, pożarów, upraw, rzek i infrastruktury."},
+        {t:"Inżynier energii odnawialnej", s:"green", d:"Projektuje, wdraża i optymalizuje instalacje wiatrowe, słoneczne i magazyny energii — jeden z najszybciej rosnących zawodów w związku z transformacją energetyczną."},
+        {t:"Specjalista wychwytywania CO2", s:"yellow", d:"Zajmuje się projektowaniem i eksploatacją instalacji wychwytujących dwutlenek węgla z atmosfery lub emisji przemysłowych oraz jego bezpiecznym składowaniem lub ponownym wykorzystaniem."},
+        {t:"Projektant gospodarki obiegu zamkniętego", s:"green", d:"Przeprojektowuje produkty, opakowania i łańcuchy dostaw tak, by minimalizować odpady i maksymalizować ponowne wykorzystanie surowców."},
+        {t:"Koordynator renaturalizacji ekosystemów", s:"yellow", d:"Planuje i nadzoruje przywracanie zdegradowanych terenów do stanu naturalnego (lasy, mokradła, rafy), łącząc ekologię, dane satelitarne i inżynierię terenu."},
+        {t:"Menedżer ryzyka klimatycznego", s:"green", d:"Ocenia w firmach i instytucjach finansowych ekspozycję na ryzyko fizyczne i regulacyjne związane ze zmianą klimatu oraz doradza w zakresie strategii adaptacji i raportowania ESG."}
       ]
     },
     { id:"city", label:"Miasta, przestrzeń i mobilność", glow:"#9b8cf9",
@@ -606,10 +626,9 @@
         "Bez tych ról rosnąca liczba dronów, pojazdów autonomicznych i systemów miejskich generowałaby chaos, którego nikt nie ogarnia.",
         "To zawody, które decydują, czy miasto przyszłości będzie działać dla wszystkich mieszkańców, czy tylko dla tych, którzy mają najwięcej danych."
       ],
-      dilemma:[
-        "Zarządzasz miastem, które wie o swoich mieszkańcach więcej, niż oni sami są gotowi przyznać.",
-        "Musisz zdecydować, czyje potrzeby liczą się bardziej, gdy zasobów starcza tylko dla jednej strony miasta.",
-        "Twoja praca sprawia, że miasto działa sprawniej — pytanie, dla kogo dokładnie."
+      outlook:[
+        "Wyobrażamy sobie pokój pełen ekranów pokazujących miasto z lotu ptaka, gdzie trzeba w sekundę zdecydować, czy korek to problem informatyczny, czy ludzki.",
+        "Podejrzewamy, że to zawód, w którym najlepszy dzień pracy to taki, w którym nic nie trzeba było naprawiać w locie."
       ],
       funfact:[
         "W niektórych miastach systemy zarządzania ruchem już dziś podejmują tysiące mikrodecyzji na sekundę, których żaden człowiek by nie nadążył przetworzyć.",
@@ -620,7 +639,11 @@
         {t:"Dyrygent mobilności miejskiej", s:"blue", d:"Koordynuje w czasie rzeczywistym transport publiczny, autonomiczne pojazdy, dostawy i ruch pieszy, wykorzystując dane miejskie."},
         {t:"Projektant miast odpornych na kryzysy", s:"yellow", d:"Projektuje miasta zdolne funkcjonować podczas przerw w energii, powodzi, fal upałów, pandemii i cyberataków."},
         {t:"Operator ruchu dronowego", s:"yellow", d:"Zarządza ruchem dużej liczby dronów dostawczych, inspekcyjnych i ratowniczych w przestrzeni miejskiej."},
-        {t:"Architekt przestrzeni hybrydowych", s:"blue", d:"Projektuje miejsca, w których płynnie łączą się świat fizyczny, rozszerzona rzeczywistość i cyfrowe usługi."}
+        {t:"Architekt przestrzeni hybrydowych", s:"blue", d:"Projektuje miejsca, w których płynnie łączą się świat fizyczny, rozszerzona rzeczywistość i cyfrowe usługi."},
+        {t:"Planista inteligentnych miast", s:"yellow", d:"Projektuje systemy zarządzania ruchem, energią i usługami miejskimi oparte na danych z czujników i AI, dążąc do efektywniejszych i bardziej zrównoważonych metropolii."},
+        {t:"Zarządca ruchu pojazdów autonomicznych", s:"blue", d:"Nadzoruje płynne współistnienie pojazdów autonomicznych, tradycyjnego ruchu i pieszych w przestrzeni miejskiej, reagując na incydenty i optymalizując przepustowość skrzyżowań w czasie rzeczywistym."},
+        {t:"Architekt mikromobilności", s:"green", d:"Projektuje infrastrukturę i usługi dla hulajnóg, rowerów elektrycznych i innych form transportu „ostatniej mili”, integrując je z transportem publicznym."},
+        {t:"Kurator przestrzeni miejskich przyjaznych seniorom", s:"blue", d:"Projektuje i dostosowuje przestrzenie publiczne, transport i usługi do potrzeb starzejącego się społeczeństwa — od ławek z czujnikami zdrowia po nawigację głosową dla osób słabowidzących."}
       ]
     },
     { id:"law", label:"Prawo, administracja i gospodarka", glow:"#21f0ff",
@@ -636,10 +659,9 @@
         "Bez tych ról regulacje zawsze byłyby o krok za technologią, którą mają kontrolować.",
         "To zawody, które tłumaczą język prawa na język systemów — i odwrotnie — zanim zrobi to za nich ktoś przypadkowy."
       ],
-      dilemma:[
-        "Musisz zdecydować, czy przepis nadążający za technologią jest lepszy niż przepis, który jej nie rozumie, ale przynajmniej istnieje.",
-        "Bronisz granicy między tym, co algorytm może zrobić, a tym, co powinien.",
-        "Twoja praca próbuje ucywilizować systemy, które rozwijają się szybciej, niż ktokolwiek zdąży je uregulować."
+      outlook:[
+        "Wyobrażamy sobie stertę dokumentów obok terminala z kodem — trzeba znać się na obu, żeby cokolwiek z tego wynikło.",
+        "Podejrzewamy, że to praca dla kogoś, kto lubi czytać drobny druk i wie, że tam często kryje się to, co najważniejsze."
       ],
       funfact:[
         "Unijny AI Act to jeden z pierwszych na świecie kompleksowych aktów prawnych regulujących wprost systemy sztucznej inteligencji.",
@@ -651,7 +673,10 @@
         {t:"Tłumacz regulacji na algorytmy", s:"blue", d:"Przekłada przepisy i polityki na wymagania, które można wdrożyć, testować i monitorować w systemach automatycznych."},
         {t:"Architekt cyfrowego zaufania", s:"yellow", d:"Projektuje mechanizmy wiarygodności: pochodzenie danych, reputację, autentyczność treści i zasady współpracy między podmiotami."},
         {t:"Specjalista od podatków automatycznych", s:"blue", d:"Projektuje modele rozliczeń w gospodarce, w której transakcje wykonują autonomiczne systemy, roboty i inteligentne kontrakty."},
-        {t:"Audytor organizacji sterowanej przez AI", s:"yellow", d:"Ocenia firmę, w której kluczowe procesy są częściowo prowadzone przez agentów. Audyt obejmuje dane, modele, decyzje, kontrolę i odpowiedzialność."}
+        {t:"Audytor organizacji sterowanej przez AI", s:"yellow", d:"Ocenia firmę, w której kluczowe procesy są częściowo prowadzone przez agentów. Audyt obejmuje dane, modele, decyzje, kontrolę i odpowiedzialność."},
+        {t:"Prawnik ds. regulacji AI", s:"green", d:"Doradza firmom we wdrażaniu systemów AI zgodnie z rosnącą liczbą regulacji krajowych i międzynarodowych (jak unijny AI Act), zarządzając ryzykiem prawnym nowych zastosowań."},
+        {t:"Rzecznik praw cyfrowych", s:"green", d:"Reprezentuje interesy obywateli w sporach dotyczących nadzoru algorytmicznego, prywatności danych i dostępu do technologii, na styku organizacji pozarządowych i administracji publicznej."},
+        {t:"Specjalista etyki robotyki", s:"yellow", d:"Ocenia projekty robotów współpracujących z ludźmi (w opiece, produkcji, usługach) pod kątem bezpieczeństwa, godności i granic autonomii maszyny wobec człowieka."}
       ]
     },
     { id:"culture", label:"Edukacja, kultura i relacje", glow:"#ff2ec4",
@@ -667,10 +692,9 @@
         "Bez tych ról kultura i edukacja rozwijałyby się w tempie technologii, a nie w tempie ludzi, którzy z nich korzystają.",
         "To zawody, które bronią miejsca dla ludzkiej uwagi i sensu w świecie zaprojektowanym, by je rozpraszać."
       ],
-      dilemma:[
-        "Musisz zdecydować, gdzie kończy się inspiracja systemu, a zaczyna zanikanie czegoś czysto ludzkiego.",
-        "Bronisz miejsca dla rzeczy powolnych i niedoskonałych w świecie zoptymalizowanym pod szybkość.",
-        "Twoja praca broni sensu i pamięci w świecie, który produkuje więcej treści, niż ktokolwiek zdąży przeżyć."
+      outlook:[
+        "Wyobrażamy sobie pracę pełną eksperymentów — jeden dzień to warsztat z uczniami, drugi to rozmowa o tym, czy system wygenerował coś zbyt podobnego do cudzej twórczości.",
+        "Podejrzewamy, że to zawód dla kogoś, kto wierzy, że technologia ma służyć ludziom, a nie odwrotnie — i codziennie broni tego przekonania w praktyce."
       ],
       funfact:[
         "Konserwatorzy cyfrowego dziedzictwa ratują dziś strony internetowe i gry sprzed dekad, zanim znikną razem z serwerami, na których działały.",
@@ -682,7 +706,23 @@
         {t:"Trener krytycznego myślenia cyfrowego", s:"green", d:"Uczy rozpoznawania manipulacji, błędów AI, syntetycznych treści i mechanizmów platform."},
         {t:"Kurator doświadczeń offline", s:"blue", d:"Projektuje wydarzenia i przestrzenie jako świadomą alternatywę dla życia w pełni zdigitalizowanego: relacje, ruch, rzemiosło, wspólne działanie."},
         {t:"Konserwator kultury cyfrowej", s:"yellow", d:"Chroni gry, strony, media społecznościowe, światy wirtualne i inne artefakty kultury przed zniknięciem."},
-        {t:"Reżyser doświadczeń wielozmysłowych", s:"blue", d:"Łączy dźwięk, obraz, dotyk, zapach i technologie immersyjne w kulturze, edukacji, terapii i rozrywce."}
+        {t:"Reżyser doświadczeń wielozmysłowych", s:"blue", d:"Łączy dźwięk, obraz, dotyk, zapach i technologie immersyjne w kulturze, edukacji, terapii i rozrywce."},
+        {t:"Architekt ścieżki zawodowej w erze AI", s:"blue", d:"Doradza pracownikom, jak łączyć umiejętności ludzkie z pracą wspieraną przez AI, planując kolejne kroki kariery w zawodzie, który sam podlega ciągłej automatyzacji."},
+        {t:"Projektant programów reskillingu", s:"yellow", d:"Tworzy dla firm i instytucji publicznych programy przekwalifikowania pracowników zagrożonych automatyzacją, łącząc analizę luk kompetencyjnych z projektowaniem szkoleń."},
+        {t:"Kurator mikro-poświadczeń", s:"blue", d:"Pomaga pracownikom i pracodawcom poruszać się w rosnącej liczbie krótkich certyfikatów i „odznak” kompetencyjnych, składając z nich spójne, wiarygodne portfolio zawodowe."},
+        {t:"Trener odporności psychicznej pracowników", s:"yellow", d:"Prowadzi programy budowania odporności, elastyczności i zdolności adaptacji zespołów w obliczu ciągłych zmian technologicznych i organizacyjnych."},
+        {t:"Projektant światów wirtualnych", s:"yellow", d:"Tworzy immersyjne środowiska 3D do pracy, rozrywki i edukacji, łącząc projektowanie gier, architekturę i UX."},
+        {t:"Scenarzysta interaktywnych doświadczeń AI", s:"yellow", d:"Pisze rozgałęziające się narracje i dialogi dla postaci i asystentów napędzanych generatywną AI, reagujących dynamicznie na działania użytkownika."},
+        {t:"Kurator cyfrowego dziedzictwa", s:"blue", d:"Zarządza cyfrową spuścizną osób zmarłych — archiwami, awatarami głosowymi, kontami — godząc wolę rodziny, prawo do prywatności i możliwości technologii odtwarzania podobizny."},
+        {t:"Reżyser treści generowanych przez AI", s:"yellow", d:"Nadaje spójny styl, ton i jakość materiałom (obraz, wideo, muzyka) tworzonym masowo przez modele generatywne, pełniąc rolę reżysera artystycznego nad flotą narzędzi AI."},
+        {t:"Kurator sztuki generatywnej", s:"yellow", d:"Selekcjonuje, kontekstualizuje i wystawia dzieła powstałe we współpracy z AI, broniąc miejsca dla ludzkiej intencji artystycznej w świecie zalanym treścią generowaną maszynowo."},
+        {t:"Archiwista muzyki ginących tradycji", s:"blue", d:"Dokumentuje i chroni zanikające tradycje muzyczne przy pomocy AI wspierającej transkrypcję, analizę i rekonstrukcję nagrań — łączy etnomuzykologię z informatyką dźwięku."},
+        {t:"Projektant gier terapeutycznych", s:"yellow", d:"Tworzy gry wideo wykorzystywane w terapii, rehabilitacji neurologicznej i pracy z traumą, projektowane wspólnie z psychologami i lekarzami pod kątem mierzalnych efektów zdrowotnych."},
+        {t:"Kompozytor muzyki adaptacyjnej", s:"blue", d:"Tworzy systemy muzyczne reagujące w czasie rzeczywistym na dane biometryczne słuchacza (tętno, nastrój, poziom stresu) — kompozycja staje się żywym, reagującym środowiskiem dźwiękowym."},
+        {t:"Specjalista atrybucji dzieł sztuki wspomaganej AI", s:"blue", d:"Wykorzystuje analizę obrazu i uczenie maszynowe do autentykacji, datowania i przypisywania autorstwa dzieł sztuki, wspierając tradycyjnych historyków sztuki i rzeczoznawców."},
+        {t:"Kurator muzeów hybrydowych", s:"yellow", d:"Projektuje wystawy łączące artefakty fizyczne z warstwami cyfrowymi i rozszerzoną rzeczywistością, pozwalającymi zwiedzającym zobaczyć obiekt w jego pierwotnym kontekście historycznym."},
+        {t:"Projektant tożsamości cyfrowych postaci", s:"blue", d:"Buduje osobowość, głos i sposób bycia wirtualnych influencerów oraz towarzyszy AI o unikalnym charakterze — zawód na styku scenopisarstwa, projektowania marki i psychologii postaci."},
+        {t:"Rzemieślnik analogowy", s:"blue", d:"W odpowiedzi na pełną cyfryzację i automatyzację odradzają się zawody rękodzielnicze — introligatorstwo, ręczne tkactwo, ceramika — funkcjonujące jako luksusowa, w pełni ludzka nisza i przeciwwaga dla masowej produkcji AI."}
       ]
     },
     { id:"space", label:"Kosmos i nowe granice", glow:"#5cf7a0",
@@ -698,10 +738,9 @@
         "Bez tych ról ekspansja poza Ziemię odbywałaby się bez nikogo, kto pilnuje bezpieczeństwa i sensu tych działań.",
         "To zawody, które decydują, czy ludzkość rozszerza się w kosmos odpowiedzialnie, czy tylko szybko."
       ],
-      dilemma:[
-        "Musisz zdecydować, czy tempo eksploracji jest ważniejsze niż bezpieczeństwo tych, którzy ją prowadzą.",
-        "Bronisz zasad tam, gdzie jeszcze nikt nie zdążył ich porządnie spisać.",
-        "Twoja praca rozszerza granice ludzkości — kosztem tego, jak bardzo jesteś w tych granicach chroniony."
+      outlook:[
+        "Wyobrażamy sobie pracę, w której rutyna i ekstremum sąsiadują ze sobą — codzienna procedura może w każdej chwili zamienić się w coś, czego nikt nie przewidział.",
+        "Podejrzewamy, że to zawód dla kogoś, kto potrafi być cierpliwy miesiącami i błyskawiczny w jednej chwili, gdy naprawdę trzeba."
       ],
       funfact:[
         "Liczba satelitów na orbicie rośnie tak szybko, że zarządzanie ruchem satelitarnym zaczyna przypominać kontrolę lotów, tylko w znacznie większej skali.",
@@ -711,7 +750,25 @@
       professions:[
         {t:"Operator infrastruktury orbitalnej", s:"yellow", d:"Nadzoruje satelity, roboty serwisowe i przyszłe instalacje przemysłowe działające na orbicie."},
         {t:"Specjalista ds. gospodarki kosmicznej", s:"blue", d:"Analizuje modele biznesowe i regulacyjne związane z produkcją, komunikacją i usługami poza Ziemią."},
-        {t:"Projektant habitatów ekstremalnych", s:"yellow", d:"Tworzy miejsca do życia w środowiskach trudnych: Arktyka, pustynie, podziemie, platformy morskie, a w przyszłości Księżyc i Mars."}
+        {t:"Projektant habitatów ekstremalnych", s:"yellow", d:"Tworzy miejsca do życia w środowiskach trudnych: Arktyka, pustynie, podziemie, platformy morskie, a w przyszłości Księżyc i Mars."},
+        {t:"Inżynier górnictwa kosmicznego", s:"blue", d:"Projektuje technologie pozyskiwania surowców z asteroid i Księżyca na potrzeby przemysłu orbitalnego i ziemskiego."},
+        {t:"Projektant siedlisk pozaziemskich", s:"blue", d:"Projektuje habitaty i systemy podtrzymywania życia dla długoterminowych misji na Księżycu i Marsie, łącząc architekturę, inżynierię środowiskową i psychologię izolacji."},
+        {t:"Zarządca ruchu satelitarnego", s:"yellow", d:"Monitoruje rosnącą liczbę satelitów i śmieci kosmicznych na orbicie, planując manewry unikania kolizji — zawód coraz bardziej krytyczny wraz z rozwojem megakonstelacji satelitarnych."},
+        {t:"Agronom orbitalny", s:"blue", d:"Uprawia rośliny w warunkach mikrograwitacji i na powierzchni innych ciał niebieskich, zapewniając żywność i tlen dla załóg misji długodystansowych."},
+        {t:"Psycholog misji długodystansowych", s:"yellow", d:"Dba o zdrowie psychiczne i spójność załóg spędzających lata w izolacji, opóźnieniu komunikacyjnym i ograniczonej przestrzeni."},
+        {t:"Prawnik prawa kosmicznego", s:"yellow", d:"Reguluje kwestie własności zasobów, jurysdykcji i odpowiedzialności za incydenty na orbicie i innych ciałach niebieskich, w miarę jak rośnie liczba podmiotów prywatnych działających w kosmosie."},
+        {t:"Inżynier napędów kosmicznych nowej generacji", s:"blue", d:"Pracuje nad napędami jądrowymi, plazmowymi i żaglami słonecznymi, które mają skrócić czas podróży międzyplanetarnych i uczynić eksplorację głębokiego kosmosu opłacalną."},
+        {t:"Lekarz medycyny kosmicznej", s:"yellow", d:"Leczy i zapobiega skutkom zdrowotnym długotrwałego przebywania w mikrograwitacji i pod wpływem promieniowania kosmicznego — zanikowi mięśni i kości, zaburzeniom wzroku, chorobie popromiennej."},
+        {t:"Specjalista terraformacji", s:"blue", d:"Projektuje długoterminowe, wielopokoleniowe strategie modyfikacji atmosfer i klimatu innych planet — dziś czysto teoretyczna dziedzina na styku klimatologii, inżynierii planetarnej i etyki."},
+        {t:"Operator autonomicznych statków kosmicznych", s:"yellow", d:"Nadzoruje floty bezzałogowych statków transportowych i eksploracyjnych, interweniując zdalnie tylko w sytuacjach wykraczających poza kompetencje systemów autonomicznych."},
+        {t:"Inżynier recyklingu kosmicznego", s:"blue", d:"Projektuje systemy zamkniętego obiegu wody, powietrza i materiałów na statkach i stacjach kosmicznych, gdzie niczego nie da się po prostu dowieźć na czas."},
+        {t:"Przewodnik turystyki kosmicznej", s:"yellow", d:"Oprowadza i przygotowuje pierwszych turystów orbitalnych i suborbitalnych — od szkolenia przed lotem po narrację podczas samej podróży."},
+        {t:"Oficer ochrony planetarnej", s:"green", d:"Zapobiega biologicznemu skażeniu krzyżowemu między Ziemią a innymi ciałami niebieskimi podczas misji eksploracyjnych — rola już dziś istniejąca w agencjach kosmicznych."},
+        {t:"Inżynier łączności międzyplanetarnej", s:"yellow", d:"Projektuje sieci komunikacyjne odporne na wielominutowe opóźnienia sygnału między Ziemią a odległymi misjami, w tym systemy przechowywania i przekazywania danych bez połączenia w czasie rzeczywistym."},
+        {t:"Specjalista zamkniętych ekosystemów bioregeneracyjnych", s:"blue", d:"Zarządza systemami podtrzymywania życia opartymi na roślinach i mikroorganizmach, które samodzielnie regenerują powietrze, wodę i częściowo żywność na stacjach i statkach dalekiego zasięgu."},
+        {t:"Antropolog kosmiczny", s:"blue", d:"Bada, jak długotrwałe życie w izolacji kosmicznej zmienia kulturę, język, rytuały i tożsamość społeczną ludzi."},
+        {t:"Inżynier obrony planetarnej", s:"yellow", d:"Projektuje systemy wykrywania niebezpiecznych asteroid i technologie odchylania ich trajektorii, rozwijając dzisiejsze, wczesne programy monitoringu obiektów bliskich Ziemi."},
+        {t:"Etyk eksploracji kosmosu", s:"blue", d:"Doradza agencjom i firmom w kwestiach etycznych związanych z kolonizacją, eksploatacją zasobów pozaziemskich i procedurami postępowania na wypadek kontaktu z formami życia pozaziemskiego."}
       ]
     },
     { id:"unknown", label:"Zawody, których dziś prawie nie umiemy nazwać", glow:"#ffcf5c",
@@ -727,10 +784,9 @@
         "Bez ludzi gotowych definiować nowe role nikt inny by tego nie zrobił za nich — te zawody dosłownie trzeba było najpierw wymyślić.",
         "To zawody, które pokazują, że pytanie „po co pracujemy” staje się równie ważne jak pytanie „jak pracujemy”."
       ],
-      dilemma:[
-        "Musisz zdecydować, jak nazwać i uregulować coś, co jeszcze nie ma nazwy ani precedensu.",
-        "Bronisz sensu pracy w świecie, w którym coraz mniej trzeba robić, żeby coś działało.",
-        "Twoja praca istnieje, zanim ktokolwiek zdążył ją porządnie opisać w ofercie pracy."
+      outlook:[
+        "Wyobrażamy sobie, że ta praca zmienia kształt co kilka miesięcy — bo dopiero się ją odkrywa, na bieżąco, razem z resztą świata.",
+        "Podejrzewamy, że to zawód dla kogoś, komu brak gotowej instrukcji obsługi wcale nie przeszkadza — a wręcz o to chodzi."
       ],
       funfact:[
         "Wiele dzisiejszych zawodów — jak projektant UX czy specjalista SEO — jeszcze piętnaście lat temu nie miało nazwy ani jasnej definicji.",
@@ -740,6 +796,34 @@
       professions:[
         {t:"Projektant współistnienia ludzi i inteligencji", s:"blue", d:"Rola bardziej społeczna niż techniczna. Zajmuje się tym, jak ludzie żyją, pracują i podejmują decyzje w świecie pełnym inteligentnych systemów."},
         {t:"Architekt sensu pracy", s:"blue", d:"Jeśli automatyzacja przejmie coraz większą część produktywności, pojawi się pytanie nie tylko „jak pracować?”, ale „po co?”. Ta rola łączy psychologię, organizację, edukację i projektowanie nowych form uczestnictwa społecznego."}
+      ]
+    },
+    { id:"food", label:"Rolnictwo i żywność", glow:"#5cf7a0",
+      keywords:["rolnictwo","jedzenie","gotowanie","kuchnia","uprawa","farma","ogrod","zywnosc"],
+      skill:"produkcja żywności z wykorzystaniem danych i nowych technologii",
+      tiein:[
+        "a więc dobrze odnajdziesz się w pracy, która łączy troskę o ziemię z precyzją nowoczesnych technologii",
+        "a więc to zawód dla kogoś, kto rozumie, że jedzenie to jedna z niewielu rzeczy, bez których naprawdę nie da się żyć",
+        "a więc naturalnie sprawdzisz się tam, gdzie tradycyjne rzemiosło spotyka się z danymi i nowymi metodami produkcji"
+      ],
+      importance:[
+        "ILO i WEF wskazują ten obszar jako rosnący mimo automatyzacji — ktoś musi żywić rosnącą populację przy malejących zasobach ziemi i wody.",
+        "Bez tych ról produkcja żywności zostawałaby w tyle za zmianami klimatu, zamiast się do nich przygotowywać z wyprzedzeniem.",
+        "To zawody, które decydują, czy jedzenie przyszłości będzie dostępne i bezpieczne, czy tylko efektowne na zdjęciach."
+      ],
+      outlook:[
+        "Wyobrażamy sobie rolnika z tabletem zamiast tylko z motyką — dane z drona i wyczucie ziemi muszą działać razem, a nie zamiast siebie.",
+        "Podejrzewamy, że to praca dla kogoś, kto lubi mieć namacalny efekt swojej pracy — na talerzu, nie tylko na wykresie."
+      ],
+      funfact:[
+        "Rolnictwo precyzyjne pozwala dziś nawadniać i nawozić pojedyncze fragmenty pola zamiast całości, oszczędzając wodę liczoną w tysiącach litrów.",
+        "Białko komórkowe i fermentacja precyzyjna są już wykorzystywane do produkcji składników identycznych z tymi zwierzęcymi, bez udziału zwierząt.",
+        "Część dzisiejszych analityków danych agro zaczynała jako agronomowie — dane stały się dla nich nowym rodzajem gleby."
+      ],
+      professions:[
+        {t:"Rolnik precyzyjny / analityk danych agro", s:"green", d:"Zarządza uprawami przy pomocy dronów, czujników glebowych i modeli predykcyjnych, optymalizując plony i zużycie wody oraz nawozów."},
+        {t:"Projektant żywności alternatywnej", s:"yellow", d:"Opracowuje białko komórkowe, fermentację precyzyjną i inne technologie produkcji żywności o mniejszym śladzie środowiskowym niż tradycyjna hodowla zwierząt."},
+        {t:"Specjalista przetwórstwa żywności", s:"green", d:"Odpowiada za skalowanie i jakość nowych metod przetwórstwa spożywczego — od żywności alternatywnej po zautomatyzowane linie produkcyjne."}
       ]
     }
   ];
@@ -769,7 +853,7 @@
     "Kalibrowanie horyzontu czasowego…"
   ];
 
-  var last = { categoryId:null, professionTitle:null, tieinIdx:null, importanceIdx:null, dilemmaIdx:null, funfactIdx:null };
+  var last = { categoryId:null, professionTitle:null, tieinIdx:null, importanceIdx:null, outlookIdx:null, funfactIdx:null };
 
   var form = document.getElementById("jobForm");
   var nameInput = document.getElementById("nameInput");
@@ -845,10 +929,10 @@
     var sameCat = last.categoryId===category.id;
     var tieinIdx = pickIdx(category.tiein, sameCat ? last.tieinIdx : -1);
     var importanceIdx = pickIdx(category.importance, sameCat ? last.importanceIdx : -1);
-    var dilemmaIdx = pickIdx(category.dilemma, sameCat ? last.dilemmaIdx : -1);
+    var outlookIdx = pickIdx(category.outlook, sameCat ? last.outlookIdx : -1);
     var funfactIdx = pickIdx(category.funfact, sameCat ? last.funfactIdx : -1);
 
-    last = { categoryId:category.id, professionTitle:profession.t, tieinIdx:tieinIdx, importanceIdx:importanceIdx, dilemmaIdx:dilemmaIdx, funfactIdx:funfactIdx };
+    last = { categoryId:category.id, professionTitle:profession.t, tieinIdx:tieinIdx, importanceIdx:importanceIdx, outlookIdx:outlookIdx, funfactIdx:funfactIdx };
 
     var displayName = name || "Odkrywco Przyszłości";
     var trait = (typeof getNameTrait === "function") ? getNameTrait(name) : "ma w sobie coś, co trudno zamknąć w jednym zdaniu";
@@ -858,10 +942,15 @@
 
     var frame = document.getElementById("illustrationFrame");
     frame.style.setProperty("--domain-glow", category.glow);
+    var seedBase = slugify(profession.t);
     var img = document.getElementById("jobPhoto");
-    img.src = "https://picsum.photos/seed/" + slugify(profession.t) + "/900/560";
+    img.src = "https://picsum.photos/seed/" + seedBase + "/900/560";
     img.onerror = function(){ img.style.display = "none"; };
     img.onload = function(){ img.style.display = "block"; };
+    var img2 = document.getElementById("jobPhoto2");
+    img2.src = "https://picsum.photos/seed/" + seedBase + "-" + randomInt(1,9999) + "/900/560";
+    img2.onerror = function(){ img2.style.display = "none"; };
+    img2.onload = function(){ img2.style.display = "block"; };
     document.getElementById("catIcon").innerHTML = ICONS[category.id] || "";
     document.getElementById("sectorTag").textContent = "SEKTOR: " + category.label.toUpperCase();
 
@@ -874,22 +963,19 @@
       " <b>" + escapeHtml(displayName) + "</b>, najbardziej pasuje do Ciebie zawód: <b>" + escapeHtml(profession.t) + "</b>, ponieważ jesteś osobą, która " +
       escapeHtml(trait) + ", " + escapeHtml(category.tiein[tieinIdx]) + ".";
     document.getElementById("descWhat").innerHTML = " " + escapeHtml(profession.d);
+    document.getElementById("descOutlook").innerHTML = " " + escapeHtml(category.outlook[outlookIdx]);
     document.getElementById("descImportance").innerHTML = " " + escapeHtml(category.importance[importanceIdx]);
-    document.getElementById("descDilemma").textContent = category.dilemma[dilemmaIdx];
     document.getElementById("descFunfact").textContent = category.funfact[funfactIdx];
 
     var maturityStat = clamp(status.maturity + randomInt(-1,1), 1, 5);
     var wplywStat = randomInt(3,5);
-    var uncertaintyStat = clamp(status.uncertainty + randomInt(-1,1), 1, 5);
 
     var statsWrap = document.getElementById("jobStats");
     statsWrap.innerHTML =
       "<div><div class='stat-label mono'>Dojrzałość dziś</div><div id='statMaturity'></div></div>" +
-      "<div><div class='stat-label mono'>Wpływ na świat</div><div id='statWplyw'></div></div>" +
-      "<div><div class='stat-label mono'>Niepewność prognozy</div><div id='statUncertainty'></div></div>";
+      "<div><div class='stat-label mono'>Wpływ na świat</div><div id='statWplyw'></div></div>";
     hudBar(document.getElementById("statMaturity"), maturityStat, 5);
     hudBar(document.getElementById("statWplyw"), wplywStat, 5);
-    hudBar(document.getElementById("statUncertainty"), uncertaintyStat, 5);
 
     var skills = [category.skill].concat(pickDistinct(GENERIC_SKILLS, 2));
     var skillsHtml = "";
