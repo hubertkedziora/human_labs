@@ -393,6 +393,10 @@
       .replace(/ą/g,"a").replace(/ć/g,"c").replace(/ę/g,"e").replace(/ł/g,"l")
       .replace(/ń/g,"n").replace(/ó/g,"o").replace(/ś/g,"s").replace(/ź/g,"z").replace(/ż/g,"z");
   }
+  function keywordMatches(norm, kw){
+    var escaped = kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp("(^|[^a-z0-9])" + escaped).test(norm);
+  }
   function slugify(str){
     return normalize(str).replace(/[^a-z0-9]+/g,"-").replace(/(^-+|-+$)/g,"");
   }
@@ -458,7 +462,7 @@
 
   var CATEGORIES = [
     { id:"ai", label:"AI, dane i cyfrowe społeczeństwo", glow:"#9b8cf9",
-      keywords:["ai","sztuczna inteligencja","komputer","programowanie","dane","algorytm","robot","informatyka","kod","technologia"],
+      keywords:["ai","sztuczna inteligencja","komputer","program","koduj","dane","algorytm","robot","informatyk","kod","technolog","cyfrow","aplikacj","siec neuronow","uczenie maszynow","automatyzacj","chatbot"],
       skill:"audyt i nadzór nad systemami sztucznej inteligencji",
       tiein:[
         "a więc naturalnie odnajdziesz się w pracy, która wymaga rozumienia zarówno ludzi, jak i systemów, które mają nad nimi coraz większą władzę",
@@ -501,7 +505,7 @@
       ]
     },
     { id:"cyber", label:"Cyberbezpieczeństwo, zaufanie i odporność", glow:"#21f0ff",
-      keywords:["cyberbezpieczenstwo","haker","bezpieczenstwo","ochrona danych","prywatnosc","wirus","oszustwo","fake news","dezinformacja"],
+      keywords:["cyberbezpieczenstwo","haker","hakowan","bezpiecz","atak","szyfrowan","haslo","ochrona danych","prywatnosc","wirus komputerow","oszustwo","fake news","dezinformacj","cyberatak","phishing"],
       skill:"ochrona danych, tożsamości i systemów przed nadużyciami",
       tiein:[
         "a więc dobrze odnajdziesz się tam, gdzie trzeba bronić innych przed zagrożeniami, których jeszcze nie widać gołym okiem",
@@ -538,7 +542,7 @@
       ]
     },
     { id:"health", label:"Zdrowie, długowieczność i człowiek", glow:"#ff2ec4",
-      keywords:["zdrowie","medycyna","lekarz","pomaganie ludziom","opieka","starsi","pielegniarka","dlugowiecznosc","samopoczucie","psychologia"],
+      keywords:["zdrow","medyc","lekarz","pomaganie ludziom","pomagam innym","opiek","starsi","pielegniar","dlugowiecznosc","samopoczuci","psycholog","pacjent","terapi","choroba","szpital","dietetyk"],
       skill:"łączenie danych medycznych z realną opieką nad człowiekiem",
       tiein:[
         "a więc odnajdziesz się w pracy, w której liczy się realna troska o ludzi, a nie tylko dane i procedury",
@@ -578,7 +582,7 @@
       ]
     },
     { id:"biotech", label:"Biotechnologia i nowa produkcja", glow:"#5cf7a0",
-      keywords:["biologia","genetyka","nauka","eksperymenty","produkcja","materialy","fabryka","chemia","laboratorium"],
+      keywords:["biolog","genetyk","dna","naukowiec","eksperyment","produkcj","material","fabryk","chemi","laborator"],
       skill:"praca na styku biologii, inżynierii i produkcji",
       tiein:[
         "a więc naturalnie pociągnie Cię praca u źródła — tam, gdzie natura spotyka się z inżynierią",
@@ -613,7 +617,7 @@
       ]
     },
     { id:"climate", label:"Klimat, energia i planeta", glow:"#ffcf5c",
-      keywords:["klimat","ekologia","przyroda","srodowisko","energia","zielony","planeta","zwierzeta","las","recykling"],
+      keywords:["klimat","ekologi","przyrod","srodowisk","energia odnawialn","elektrowni","energetyk","panele sloneczn","turbin wiatrow","zielon","planet","zwierz","lasy","zalesian","recykling","ochrona srodowiska"],
       skill:"projektowanie infrastruktury odpornej na zmianę klimatu",
       tiein:[
         "a więc dobrze odnajdziesz się w pracy, która ma realny wpływ na to, w jakim świecie będziemy żyć za dekady",
@@ -653,7 +657,7 @@
       ]
     },
     { id:"city", label:"Miasta, przestrzeń i mobilność", glow:"#9b8cf9",
-      keywords:["miasto","urbanistyka","architektura","transport","drony","ulice","projektowanie","przestrzen"],
+      keywords:["miast","miejsk","urbanist","architekt","transport","dron","ulic","projektowanie przestrzeni","przestrzen","budynk","budowl"],
       skill:"zarządzanie złożonymi systemami miejskimi i mobilnością",
       tiein:[
         "a więc sprawdzisz się w pracy, która łączy tysiące ludzkich potrzeb w jeden działający system",
@@ -690,7 +694,7 @@
       ]
     },
     { id:"law", label:"Prawo, administracja i gospodarka", glow:"#21f0ff",
-      keywords:["prawo","sprawiedliwosc","polityka","ekonomia","biznes","finanse","podatki","administracja","przepisy"],
+      keywords:["prawo","prawnik","sad","sprawiedliwosc","politycz","ekonomi","biznes","finans","pieniadz","podatk","administracj","przepis","negocjacj"],
       skill:"poruszanie się w prawie i regulacjach nowych technologii",
       tiein:[
         "a więc naturalnie odnajdziesz się tam, gdzie trzeba pilnować granic między tym, co możliwe, a tym, co sprawiedliwe",
@@ -727,7 +731,7 @@
       ]
     },
     { id:"culture", label:"Edukacja, kultura i relacje", glow:"#ff2ec4",
-      keywords:["sztuka","muzyka","edukacja","nauczanie","kultura","historia","pisanie","kreatywnosc","gry","film"],
+      keywords:["sztuk","artystyczn","muzyk","spiew","gra na","gitar","pianin","skrzypc","instrument","koncert","edukacj","nauczani","nauczyciel","kultur","histori","pisani","pisarz","ksiazk","czytani","kreatywn","tworcz","gry","film","rysowan","rysuj","maluj","malow","malarz","malarstw","taniec","tancz","teatr","fotografi","projektowanie graficzne","grafik","design","rzezb"],
       skill:"łączenie technologii z edukacją, kulturą i relacjami międzyludzkimi",
       tiein:[
         "a więc dobrze sprawdzisz się w pracy, która broni tego, co ludzkie, w świecie coraz bardziej zautomatyzowanym",
@@ -777,7 +781,7 @@
       ]
     },
     { id:"space", label:"Kosmos i nowe granice", glow:"#5cf7a0",
-      keywords:["kosmos","gwiazdy","rakieta","planeta","astronauta","mars","ksiezyc","galaktyka"],
+      keywords:["kosmos","kosmiczn","gwiazd","rakiet","planet","astronaut","mars","ksiezyc","galaktyk","wszechswiat","satelit","astronom","ufo"],
       skill:"praca w ekstremalnych warunkach poza Ziemią",
       tiein:[
         "a więc naturalnie pociągnie Cię praca na granicy tego, co już znamy, i tego, co dopiero odkrywamy",
@@ -827,7 +831,7 @@
       ]
     },
     { id:"unknown", label:"Zawody, których dziś prawie nie umiemy nazwać", glow:"#ffcf5c",
-      keywords:["filozofia","sens","przyszlosc","nieznane","eksperymentowanie","wszystko po trochu","nie wiem"],
+      keywords:["filozof","sens zycia","przyszlosc","nieznane","eksperymentowani","wszystko po trochu","nie wiem","nie mam pojecia","rozne rzeczy"],
       skill:"definiowanie zasad tam, gdzie jeszcze ich nie ma",
       tiein:[
         "a więc możesz odnaleźć się w roli, której jeszcze nikt porządnie nie nazwał — bo to Ty pomożesz ją zdefiniować",
@@ -858,7 +862,7 @@
       ]
     },
     { id:"food", label:"Rolnictwo i żywność", glow:"#5cf7a0",
-      keywords:["rolnictwo","jedzenie","gotowanie","kuchnia","uprawa","farma","ogrod","zywnosc"],
+      keywords:["rolnictw","rolnik","jedzeni","gotowani","kuchni","kulinar","uprawa","uprawi","farm","ogrod","zywnosc","warzyw","hodowl"],
       skill:"produkcja żywności z wykorzystaniem danych i nowych technologii",
       tiein:[
         "a więc dobrze odnajdziesz się w pracy, która łączy troskę o ziemię z precyzją nowoczesnych technologii",
@@ -937,30 +941,42 @@
     var norm = normalize(text);
     var scored = CATEGORIES.map(function(c){
       var score = 0;
-      c.keywords.forEach(function(kw){ if(norm.indexOf(kw)!==-1) score++; });
+      c.keywords.forEach(function(kw){ if(keywordMatches(norm, kw)) score++; });
       return { c:c, score:score };
     });
     var withScore = scored.filter(function(s){ return s.score>0; });
-    var chosen = withScore.length
-      ? weightedPick(withScore, function(s){ return s.score+1; }).c
-      : sample(CATEGORIES);
-    if(chosen.id===last.categoryId && CATEGORIES.length>1){
-      var alt = CATEGORIES.filter(function(c){ return c.id!==chosen.id; });
-      chosen = sample(alt);
+    if(withScore.length){
+      // Real keyword signal exists: only ever pick among categories that actually
+      // matched, and weight stronger matches much more heavily. Never fall back to
+      // a fully random category just to avoid an immediate repeat — that would
+      // silently discard a genuine match (e.g. "aktywności artystyczne" should
+      // reliably keep landing in "Edukacja, kultura i relacje").
+      var avoidingRepeat = withScore.length>1 ? withScore.filter(function(s){ return s.c.id!==last.categoryId; }) : withScore;
+      var pool = avoidingRepeat.length ? avoidingRepeat : withScore;
+      return weightedPick(pool, function(s){ return s.score*s.score+1; }).c;
     }
-    return chosen;
+    // No keyword signal at all: fall back to a random category, still varying it.
+    var alt = CATEGORIES.filter(function(c){ return c.id!==last.categoryId; });
+    return sample(alt.length ? alt : CATEGORIES);
   }
 
   function pickProfession(category, level){
     var weights = LEVEL_WEIGHTS[level];
     var scored = category.professions.map(function(p){ return { p:p, w:weights[p.s] }; });
     var total = scored.reduce(function(s,x){ return s+x.w; }, 0);
-    if(total===0){ scored.forEach(function(x){ x.w=1; }); }
+    var statusRespecting = total > 0;
+    if(!statusRespecting){ scored.forEach(function(x){ x.w=1; }); }
     var avoidTitle = (last.categoryId===category.id) ? last.professionTitle : null;
     var pool = (avoidTitle && scored.length>1) ? scored.filter(function(x){ return x.p.t!==avoidTitle; }) : scored;
     if(!pool.length) pool = scored;
     var poolTotal = pool.reduce(function(s,x){ return s+x.w; }, 0);
-    if(poolTotal===0){ pool.forEach(function(x){ x.w=1; }); }
+    if(poolTotal===0){
+      // Excluding the last title left nothing of the required status: prefer repeating
+      // the same title (still respecting status) over silently ignoring the status filter.
+      pool = scored;
+      poolTotal = pool.reduce(function(s,x){ return s+x.w; }, 0);
+      if(poolTotal===0){ pool.forEach(function(x){ x.w=1; }); }
+    }
     return weightedPick(pool, function(x){ return x.w; }).p;
   }
 
@@ -985,7 +1001,10 @@
     var problem = problemInput.value.trim();
     var level = Number(fantasyRange.value);
 
-    var category = pickCategory(interests + " " + problem + " " + talent);
+    var displayName = name || "Odkrywco Przyszłości";
+    var trait = (typeof getNameTrait === "function") ? getNameTrait(name) : "ma w sobie coś, co trudno zamknąć w jednym zdaniu";
+
+    var category = pickCategory(interests + " " + problem + " " + talent + " " + trait);
     var profession = pickProfession(category, level);
     var status = STATUS[profession.s];
 
@@ -997,9 +1016,6 @@
     var funfactIdx = pickIdx(category.funfact, sameCat ? last.funfactIdx : -1);
 
     last = { categoryId:category.id, professionTitle:profession.t, tieinIdx:tieinIdx, matchIdx:matchIdx, importanceIdx:importanceIdx, outlookIdx:outlookIdx, funfactIdx:funfactIdx };
-
-    var displayName = name || "Odkrywco Przyszłości";
-    var trait = (typeof getNameTrait === "function") ? getNameTrait(name) : "ma w sobie coś, co trudno zamknąć w jednym zdaniu";
 
     document.getElementById("cardId").textContent = makeCaseId();
     document.getElementById("cardOwner").textContent = displayName;
