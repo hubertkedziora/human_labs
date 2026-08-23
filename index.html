@@ -61,6 +61,23 @@
     font-size:clamp(2.6rem,8vw,4.6rem);
     margin:0 0 44px;font-weight:600;letter-spacing:-.02em;line-height:.98;color:var(--fg);
   }
+  h1 .gline{
+    display:inline-block;position:relative;
+    animation:titleTune 7s ease-in-out infinite;
+    animation-delay:1.4s;
+  }
+  h1 .gline.gline-2{animation-delay:1.6s;}
+  @keyframes titleTune{
+    0%, 89%, 100% { transform:translate(0,0); text-shadow:none; opacity:1; filter:none; }
+    89.6% { transform:translate(-3px,1px); text-shadow:2px 0 var(--magenta),-2px 0 var(--cyan); opacity:.85; filter:blur(.2px); }
+    90.2% { transform:translate(2px,-1px); text-shadow:-3px 0 var(--cyan),3px 0 var(--magenta); opacity:1; }
+    90.8% { transform:translate(-1px,0); text-shadow:none; opacity:.9; }
+    91.4% { transform:translate(2px,1px); text-shadow:1px 0 var(--cyan),-1px 0 var(--magenta); opacity:1; }
+    92% { transform:translate(0,0); text-shadow:none; opacity:1; filter:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    h1 .gline{animation:none;}
+  }
   .lede{
     margin:0 0 70px 0;padding-left:clamp(0px,8vw,140px);
     font-size:clamp(1.3rem,3.6vw,1.9rem);font-weight:600;letter-spacing:-.01em;
@@ -258,7 +275,7 @@
 
   <header>
     <span class="eyebrow mono">LAB: Young Digitals — Warsztat</span>
-    <h1>Zawód<br>Przyszłości</h1>
+    <h1><span class="gline gline-1" data-final="Zawód">Zawód</span><br><span class="gline gline-2" data-final="Przyszłości">Przyszłości</span></h1>
     <p class="lede">Podaj kilka informacji o sobie. Na podstawie realnych badań trendów rynku pracy pokażemy Twój zawód przyszłości.</p>
   </header>
 
@@ -331,8 +348,9 @@
 
       <div class="dossier-body">
         <p><span class="p-label mono">Profil</span><span id="descProfile"></span></p>
+        <p><span class="p-label mono">Dlaczego to pasuje</span><span id="descMatch"></span></p>
         <p><span class="p-label mono">Czym się zajmujesz</span><span id="descWhat"></span></p>
-        <p><span class="p-label mono">Jak to sobie wyobrażamy</span><span id="descOutlook"></span></p>
+        <p><span class="p-label mono">Jak to może wyglądać w praktyce</span><span id="descOutlook"></span></p>
         <p><span class="p-label mono">Dlaczego to ważny zawód</span><span id="descImportance"></span></p>
       </div>
 
@@ -446,14 +464,18 @@
         "a więc dobrze sprawdzisz się tam, gdzie trzeba tłumaczyć język maszyn na język ludzkich potrzeb",
         "a więc to środowisko, w którym Twój sposób myślenia znajdzie realne zastosowanie każdego dnia"
       ],
+      match:[
+        "To połączenie ma znaczenie: praca z systemami sztucznej inteligencji wymaga nie tylko wiedzy technicznej, ale i wyczucia, kiedy maszynie nie można ufać bezgranicznie — a to właśnie umiejętność czytania niuansów procentuje tu najbardziej.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo ten zawód każdego dnia wymaga tłumaczenia logiki algorytmów na język ludzkich decyzji — i odwrotnie."
+      ],
       importance:[
         "Według Światowego Forum Ekonomicznego to jeden z najszybciej rosnących obszarów zatrudnienia najbliższej dekady — ktoś musi pilnować systemów, które codziennie podejmują decyzje za miliony ludzi.",
         "Bez tych ról odpowiedzialność za błędy algorytmów rozmywałaby się między firmami, a nikt konkretny by jej nie ponosił.",
         "To zawody, które decydują, czy sztuczna inteligencja rozwija się w sposób, któremu można zaufać, czy tylko w sposób, który się opłaca."
       ],
       outlook:[
-        "Wyobrażamy sobie, że w praktyce to praca bardzo blisko ekranu, ale wcale nie samotna — całe zespoły ludzi i systemów AI, które trzeba zsynchronizować jak orkiestrę, w której część muzyków nie śpi i nie robi przerw.",
-        "Podejrzewamy, że codzienność w tym zawodzie to mieszanka detektywistycznej pracy z danymi i rozmów z ludźmi, którzy nie do końca ufają maszynom — i mają ku temu dobre powody."
+        "W praktyce to praca bardzo blisko ekranu, ale wcale nie samotna — całe zespoły ludzi i systemów AI trzeba zsynchronizować jak orkiestrę, w której część muzyków nie śpi i nie robi przerw.",
+        "Codzienność w tym zawodzie to mieszanka detektywistycznej pracy z danymi i rozmów z ludźmi, którzy nie do końca ufają maszynom — i mają ku temu dobre powody."
       ],
       funfact:[
         "Raport WEF Future of Jobs 2025 wskazuje AI i big data jako obszar generujący jedne z największych zmian netto w liczbie miejsc pracy do 2030 roku.",
@@ -485,14 +507,18 @@
         "a więc to praca dla kogoś, kto potrafi myśleć o krok przed tymi, którzy chcą zaszkodzić",
         "a więc naturalnie sprawdzisz się w roli, w której czujność i konsekwencja mają realną wartość"
       ],
+      match:[
+        "To połączenie ma znaczenie: w cyberbezpieczeństwie liczy się nie tylko wiedza techniczna, ale i czujność — umiejętność zauważenia czegoś, zanim stanie się problemem.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo ten zawód wymaga spokoju w chwilach presji i konsekwencji w codziennej, niewidocznej pracy."
+      ],
       importance:[
         "W świecie, w którym twarz, głos i dokument można podrobić za pomocą AI, ktoś musi pilnować granicy między prawdą a fałszem.",
         "Bez tych ról ataki i dezinformacja rosłyby szybciej, niż społeczeństwo zdążyłoby się przed nimi bronić.",
         "To zawody, które chronią nie tylko dane, ale i zaufanie — do instytucji, mediów i siebie nawzajem."
       ],
       outlook:[
-        "Wyobrażamy sobie pracę w rytmie alarmów i spokoju na przemian — długie godziny cichej analizy przerywane momentami, w których liczy się każda sekunda.",
-        "Podejrzewamy, że to zawód, w którym sukces wygląda jak nic — atak, którego nikt nawet nie zauważył, bo został zatrzymany, zanim się zaczął."
+        "To praca w rytmie alarmów i spokoju na przemian — długie godziny cichej analizy przerywane momentami, w których liczy się każda sekunda.",
+        "Sukces w tym zawodzie często wygląda jak nic — atak, którego nikt nawet nie zauważył, bo został zatrzymany, zanim się zaczął."
       ],
       funfact:[
         "Liczba wykrytych deepfake'ów wykorzystywanych w oszustwach finansowych rośnie z roku na rok szybciej niż liczba specjalistów przeszkolonych do ich wykrywania.",
@@ -518,14 +544,18 @@
         "a więc to zawód, w którym Twoje podejście do innych ma bezpośrednie przełożenie na czyjeś życie",
         "a więc dobrze sprawdzisz się tam, gdzie technologia spotyka się z ludzką wrażliwością"
       ],
+      match:[
+        "To połączenie ma znaczenie: w opiece nad zdrowiem dane są tylko połową historii — druga połowa to zaufanie, które buduje się właśnie takim podejściem do ludzi.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo ten zawód wymaga łączenia precyzji z empatią, której żaden algorytm nie zastąpi."
+      ],
       importance:[
         "W społeczeństwie, w którym coraz więcej osób żyje 80–100 lat, ktoś musi pomóc ludziom poruszać się po coraz bardziej złożonym systemie opieki.",
         "Bez tych ról postęp medyczny trafiałby tylko do tych, którzy sami potrafią go zrozumieć i wynegocjować.",
         "To zawody, które łączą technologię z czymś, czego żaden algorytm nie zastąpi: realną troską o drugiego człowieka."
       ],
       outlook:[
-        "Wyobrażamy sobie, że to praca łącząca ekran pełen danych z bardzo ludzkimi rozmowami — połowa czasu to analiza, druga połowa to tłumaczenie jej komuś, kto się boi.",
-        "Podejrzewamy, że codzienność tego zawodu to więcej słuchania niż mówienia — technologia daje dane, ale to człowiek musi zdecydować, co z nimi zrobić."
+        "To praca łącząca ekran pełen danych z bardzo ludzkimi rozmowami — połowa czasu to analiza, druga połowa to tłumaczenie jej komuś, kto się boi.",
+        "Codzienność tego zawodu to więcej słuchania niż mówienia — technologia daje dane, ale to człowiek musi zdecydować, co z nimi zrobić."
       ],
       funfact:[
         "Liczba osób w wieku 80+ rośnie szybciej niż liczba specjalistów przygotowanych do projektowania usług i przestrzeni dla tej grupy.",
@@ -554,14 +584,18 @@
         "a więc to zawód dla kogoś, kto lubi rozumieć, jak rzeczy naprawdę działają od środka",
         "a więc dobrze odnajdziesz się w pracy łączącej cierpliwość badacza z precyzją inżyniera"
       ],
+      match:[
+        "To połączenie ma znaczenie: praca na styku biologii i inżynierii wymaga cierpliwości i dokładności w równych częściach — dokładnie takich cech, jak te opisane wyżej.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo natura nie przyspiesza na życzenie, a ten zawód wymaga szacunku dla jej tempa."
+      ],
       importance:[
         "To jeden z obszarów wskazywanych przez ILO i WEF jako kluczowy dla transformacji przemysłu w najbliższych dekadach.",
         "Bez tych ról nowe technologie produkcji rozwijałyby się bez nikogo, kto rozumie zarówno biologię, jak i inżynierię.",
         "To zawody, które decydują, czy przyszła produkcja żywności i materiałów będzie bezpieczna, zanim trafi do ludzi."
       ],
       outlook:[
-        "Wyobrażamy sobie laboratorium, które wygląda trochę jak warsztat, a trochę jak farma — probówki obok czegoś, co rośnie i trzeba to podlewać.",
-        "Podejrzewamy, że to praca dla kogoś cierpliwego — biologia nie przyspiesza na życzenie, nawet jeśli reszta świata już dawno przyspieszyła."
+        "To laboratorium, które wygląda trochę jak warsztat, a trochę jak farma — probówki obok czegoś, co rośnie i trzeba to podlewać.",
+        "To praca dla kogoś cierpliwego — biologia nie przyspiesza na życzenie, nawet jeśli reszta świata już dawno przyspieszyła."
       ],
       funfact:[
         "Fermentacja precyzyjna pozwala dziś produkować białka identyczne z tymi z mięsa czy mleka bez udziału zwierząt.",
@@ -585,14 +619,18 @@
         "a więc to zawód dla kogoś, kto myśli w perspektywie większej niż jedno pokolenie",
         "a więc naturalnie sprawdzisz się tam, gdzie troska o świat zamienia się w konkretne działanie"
       ],
+      match:[
+        "To połączenie ma znaczenie: praca nad klimatem wymaga myślenia w perspektywie dekad, a nie tylko najbliższego kwartału — a to wymaga dokładnie takiego charakteru.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo efekty tej pracy widać dopiero po latach, więc trzeba wierzyć w jej sens na kredyt."
+      ],
       importance:[
         "Raporty WEF i ILO wskazują transformację klimatyczną i energetyczną jako jedną z głównych sił zmieniających rynek pracy do 2030 roku.",
         "Bez tych ról miasta i firmy przygotowywałyby się na zmianę klimatu dopiero wtedy, gdy będzie już za późno.",
         "To zawody, od których dosłownie zależy, jak dobrze poradzimy sobie z tym, co już się dzieje z klimatem."
       ],
       outlook:[
-        "Wyobrażamy sobie pracę w terenie i przy komputerze na przemian — rano dane satelitarne, po południu buty w błocie, żeby sprawdzić, czy dane zgadzają się z rzeczywistością.",
-        "Podejrzewamy, że to zawód, w którym efekty widać dopiero po latach — trzeba wierzyć w sens tego, co się robi, na kredyt."
+        "To praca w terenie i przy komputerze na przemian — rano dane satelitarne, po południu buty w błocie, żeby sprawdzić, czy dane zgadzają się z rzeczywistością.",
+        "To zawód, w którym efekty widać dopiero po latach — trzeba wierzyć w sens tego, co się robi, na kredyt."
       ],
       funfact:[
         "Mikrosieci energetyczne pozwalają dziś całym dzielnicom funkcjonować przez kilka dni bez połączenia z główną siecią.",
@@ -621,14 +659,18 @@
         "a więc to zawód dla kogoś, kto lubi porządkować złożone rzeczy tak, by działały dla wszystkich",
         "a więc dobrze odnajdziesz się tam, gdzie codzienne życie miliona ludzi zależy od dobrze zaprojektowanego systemu"
       ],
+      match:[
+        "To połączenie ma znaczenie: zarządzanie systemami miejskimi wymaga porządkowania chaosu tak, by działał dla wszystkich, nie tylko dla efektywności.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo codzienne życie miliona ludzi zależy od decyzji podejmowanych właśnie z takim podejściem."
+      ],
       importance:[
         "W miastach coraz gęściej zaludnionych i coraz bardziej zautomatyzowanych ktoś musi dbać o to, by systemy działały dla ludzi, a nie tylko dla efektywności.",
         "Bez tych ról rosnąca liczba dronów, pojazdów autonomicznych i systemów miejskich generowałaby chaos, którego nikt nie ogarnia.",
         "To zawody, które decydują, czy miasto przyszłości będzie działać dla wszystkich mieszkańców, czy tylko dla tych, którzy mają najwięcej danych."
       ],
       outlook:[
-        "Wyobrażamy sobie pokój pełen ekranów pokazujących miasto z lotu ptaka, gdzie trzeba w sekundę zdecydować, czy korek to problem informatyczny, czy ludzki.",
-        "Podejrzewamy, że to zawód, w którym najlepszy dzień pracy to taki, w którym nic nie trzeba było naprawiać w locie."
+        "To pokój pełen ekranów pokazujących miasto z lotu ptaka, gdzie trzeba w sekundę zdecydować, czy korek to problem informatyczny, czy ludzki.",
+        "To zawód, w którym najlepszy dzień pracy to taki, w którym nic nie trzeba było naprawiać w locie."
       ],
       funfact:[
         "W niektórych miastach systemy zarządzania ruchem już dziś podejmują tysiące mikrodecyzji na sekundę, których żaden człowiek by nie nadążył przetworzyć.",
@@ -654,14 +696,18 @@
         "a więc to zawód dla kogoś, kto potrafi zachować zimną krew tam, gdzie inni gubią się w szczegółach",
         "a więc dobrze sprawdzisz się w roli, w której trzeba godzić interesy, których nikt inny nie chce godzić"
       ],
+      match:[
+        "To połączenie ma znaczenie: prawo i regulacje nowych technologii wymagają cierpliwości do szczegółów i odwagi w podejmowaniu trudnych decyzji.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo ten zawód polega na godzeniu interesów, których nikt inny nie chce godzić."
+      ],
       importance:[
         "W miarę jak decyzje o kredycie, zatrudnieniu czy diagnozie coraz częściej podejmują systemy, ktoś musi pilnować, kto za to odpowiada.",
         "Bez tych ról regulacje zawsze byłyby o krok za technologią, którą mają kontrolować.",
         "To zawody, które tłumaczą język prawa na język systemów — i odwrotnie — zanim zrobi to za nich ktoś przypadkowy."
       ],
       outlook:[
-        "Wyobrażamy sobie stertę dokumentów obok terminala z kodem — trzeba znać się na obu, żeby cokolwiek z tego wynikło.",
-        "Podejrzewamy, że to praca dla kogoś, kto lubi czytać drobny druk i wie, że tam często kryje się to, co najważniejsze."
+        "To sterta dokumentów obok terminala z kodem — trzeba znać się na obu, żeby cokolwiek z tego wynikło.",
+        "To praca dla kogoś, kto lubi czytać drobny druk i wie, że tam często kryje się to, co najważniejsze."
       ],
       funfact:[
         "Unijny AI Act to jeden z pierwszych na świecie kompleksowych aktów prawnych regulujących wprost systemy sztucznej inteligencji.",
@@ -687,14 +733,18 @@
         "a więc to zawód dla kogoś, kto potrafi zarazić innych ciekawością i chęcią tworzenia",
         "a więc naturalnie odnajdziesz się tam, gdzie liczy się to, co niepowtarzalne, a nie tylko wydajne"
       ],
+      match:[
+        "To połączenie ma znaczenie: edukacja i kultura potrzebują dokładnie takiego podejścia, żeby nie zginąć w tempie technologii, które mają im służyć.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo ten zawód broni miejsca dla tego, co ludzkie, w świecie zaprojektowanym pod szybkość."
+      ],
       importance:[
         "WEF wskazuje krytyczne myślenie i zdolność adaptacji jako jedne z najważniejszych kompetencji do 2030 roku — te zawody uczą tego wprost.",
         "Bez tych ról kultura i edukacja rozwijałyby się w tempie technologii, a nie w tempie ludzi, którzy z nich korzystają.",
         "To zawody, które bronią miejsca dla ludzkiej uwagi i sensu w świecie zaprojektowanym, by je rozpraszać."
       ],
       outlook:[
-        "Wyobrażamy sobie pracę pełną eksperymentów — jeden dzień to warsztat z uczniami, drugi to rozmowa o tym, czy system wygenerował coś zbyt podobnego do cudzej twórczości.",
-        "Podejrzewamy, że to zawód dla kogoś, kto wierzy, że technologia ma służyć ludziom, a nie odwrotnie — i codziennie broni tego przekonania w praktyce."
+        "To praca pełna eksperymentów — jeden dzień to warsztat z uczniami, drugi to rozmowa o tym, czy system wygenerował coś zbyt podobnego do cudzej twórczości.",
+        "To zawód dla kogoś, kto wierzy, że technologia ma służyć ludziom, a nie odwrotnie — i codziennie broni tego przekonania w praktyce."
       ],
       funfact:[
         "Konserwatorzy cyfrowego dziedzictwa ratują dziś strony internetowe i gry sprzed dekad, zanim znikną razem z serwerami, na których działały.",
@@ -733,14 +783,18 @@
         "a więc to zawód dla kogoś, kto nie boi się myśleć w skali, która przekracza jedną planetę",
         "a więc dobrze odnajdziesz się tam, gdzie odwaga i precyzja muszą iść w parze"
       ],
+      match:[
+        "To połączenie ma znaczenie: praca poza Ziemią wymaga cierpliwości miesiącami i błyskawicznej reakcji w jednej chwili, gdy naprawdę trzeba.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo ten zawód nie wybacza połowicznego zaangażowania ani braku precyzji."
+      ],
       importance:[
         "Wraz z rosnącą liczbą satelitów, misji i firm prywatnych w kosmosie te role stają się coraz bardziej krytyczne, nie tylko badawcze.",
         "Bez tych ról ekspansja poza Ziemię odbywałaby się bez nikogo, kto pilnuje bezpieczeństwa i sensu tych działań.",
         "To zawody, które decydują, czy ludzkość rozszerza się w kosmos odpowiedzialnie, czy tylko szybko."
       ],
       outlook:[
-        "Wyobrażamy sobie pracę, w której rutyna i ekstremum sąsiadują ze sobą — codzienna procedura może w każdej chwili zamienić się w coś, czego nikt nie przewidział.",
-        "Podejrzewamy, że to zawód dla kogoś, kto potrafi być cierpliwy miesiącami i błyskawiczny w jednej chwili, gdy naprawdę trzeba."
+        "To praca, w której rutyna i ekstremum sąsiadują ze sobą — codzienna procedura może w każdej chwili zamienić się w coś, czego nikt nie przewidział.",
+        "To zawód dla kogoś, kto potrafi być cierpliwy miesiącami i błyskawiczny w jednej chwili, gdy naprawdę trzeba."
       ],
       funfact:[
         "Liczba satelitów na orbicie rośnie tak szybko, że zarządzanie ruchem satelitarnym zaczyna przypominać kontrolę lotów, tylko w znacznie większej skali.",
@@ -779,14 +833,18 @@
         "a więc to zawód dla kogoś, kto nie potrzebuje gotowej ścieżki, żeby wiedzieć, dokąd zmierza",
         "a więc naturalnie sprawdzisz się tam, gdzie trzeba wymyślić zasady, zanim ktokolwiek zdąży je spisać"
       ],
+      match:[
+        "To połączenie ma znaczenie: role, które dopiero powstają, potrzebują kogoś, kto nie czeka na gotową instrukcję obsługi.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo ten zawód trzeba było najpierw wymyślić, zanim ktokolwiek zdążył go nazwać."
+      ],
       importance:[
         "To kategoria, która przypomina, że najważniejsze zawody przyszłości prawdopodobnie jeszcze nie mają nazwy — dokładnie tak, jak dziś brzmiące zawody nie istniały jeszcze dekadę temu.",
         "Bez ludzi gotowych definiować nowe role nikt inny by tego nie zrobił za nich — te zawody dosłownie trzeba było najpierw wymyślić.",
         "To zawody, które pokazują, że pytanie „po co pracujemy” staje się równie ważne jak pytanie „jak pracujemy”."
       ],
       outlook:[
-        "Wyobrażamy sobie, że ta praca zmienia kształt co kilka miesięcy — bo dopiero się ją odkrywa, na bieżąco, razem z resztą świata.",
-        "Podejrzewamy, że to zawód dla kogoś, komu brak gotowej instrukcji obsługi wcale nie przeszkadza — a wręcz o to chodzi."
+        "Ta praca zmienia kształt co kilka miesięcy — bo dopiero się ją odkrywa, na bieżąco, razem z resztą świata.",
+        "To zawód dla kogoś, komu brak gotowej instrukcji obsługi wcale nie przeszkadza — a wręcz o to chodzi."
       ],
       funfact:[
         "Wiele dzisiejszych zawodów — jak projektant UX czy specjalista SEO — jeszcze piętnaście lat temu nie miało nazwy ani jasnej definicji.",
@@ -806,14 +864,18 @@
         "a więc to zawód dla kogoś, kto rozumie, że jedzenie to jedna z niewielu rzeczy, bez których naprawdę nie da się żyć",
         "a więc naturalnie sprawdzisz się tam, gdzie tradycyjne rzemiosło spotyka się z danymi i nowymi metodami produkcji"
       ],
+      match:[
+        "To połączenie ma znaczenie: produkcja żywności przyszłości wymaga łączenia troski o konkretny, namacalny efekt z otwartością na nowe technologie.",
+        "Takie cechy sprawdzają się tu wyjątkowo dobrze, bo ten zawód wymaga jednocześnie precyzji danych i szacunku dla naturalnego tempa upraw."
+      ],
       importance:[
         "ILO i WEF wskazują ten obszar jako rosnący mimo automatyzacji — ktoś musi żywić rosnącą populację przy malejących zasobach ziemi i wody.",
         "Bez tych ról produkcja żywności zostawałaby w tyle za zmianami klimatu, zamiast się do nich przygotowywać z wyprzedzeniem.",
         "To zawody, które decydują, czy jedzenie przyszłości będzie dostępne i bezpieczne, czy tylko efektowne na zdjęciach."
       ],
       outlook:[
-        "Wyobrażamy sobie rolnika z tabletem zamiast tylko z motyką — dane z drona i wyczucie ziemi muszą działać razem, a nie zamiast siebie.",
-        "Podejrzewamy, że to praca dla kogoś, kto lubi mieć namacalny efekt swojej pracy — na talerzu, nie tylko na wykresie."
+        "To rolnik z tabletem zamiast tylko z motyką — dane z drona i wyczucie ziemi muszą działać razem, a nie zamiast siebie.",
+        "To praca dla kogoś, kto lubi mieć namacalny efekt swojej pracy — na talerzu, nie tylko na wykresie."
       ],
       funfact:[
         "Rolnictwo precyzyjne pozwala dziś nawadniać i nawozić pojedyncze fragmenty pola zamiast całości, oszczędzając wodę liczoną w tysiącach litrów.",
@@ -853,7 +915,7 @@
     "Kalibrowanie horyzontu czasowego…"
   ];
 
-  var last = { categoryId:null, professionTitle:null, tieinIdx:null, importanceIdx:null, outlookIdx:null, funfactIdx:null };
+  var last = { categoryId:null, professionTitle:null, tieinIdx:null, matchIdx:null, importanceIdx:null, outlookIdx:null, funfactIdx:null };
 
   var form = document.getElementById("jobForm");
   var nameInput = document.getElementById("nameInput");
@@ -928,11 +990,12 @@
 
     var sameCat = last.categoryId===category.id;
     var tieinIdx = pickIdx(category.tiein, sameCat ? last.tieinIdx : -1);
+    var matchIdx = pickIdx(category.match, sameCat ? last.matchIdx : -1);
     var importanceIdx = pickIdx(category.importance, sameCat ? last.importanceIdx : -1);
     var outlookIdx = pickIdx(category.outlook, sameCat ? last.outlookIdx : -1);
     var funfactIdx = pickIdx(category.funfact, sameCat ? last.funfactIdx : -1);
 
-    last = { categoryId:category.id, professionTitle:profession.t, tieinIdx:tieinIdx, importanceIdx:importanceIdx, outlookIdx:outlookIdx, funfactIdx:funfactIdx };
+    last = { categoryId:category.id, professionTitle:profession.t, tieinIdx:tieinIdx, matchIdx:matchIdx, importanceIdx:importanceIdx, outlookIdx:outlookIdx, funfactIdx:funfactIdx };
 
     var displayName = name || "Odkrywco Przyszłości";
     var trait = (typeof getNameTrait === "function") ? getNameTrait(name) : "ma w sobie coś, co trudno zamknąć w jednym zdaniu";
@@ -962,6 +1025,7 @@
     document.getElementById("descProfile").innerHTML =
       " <b>" + escapeHtml(displayName) + "</b>, najbardziej pasuje do Ciebie zawód: <b>" + escapeHtml(profession.t) + "</b>, ponieważ jesteś osobą, która " +
       escapeHtml(trait) + ", " + escapeHtml(category.tiein[tieinIdx]) + ".";
+    document.getElementById("descMatch").innerHTML = " " + escapeHtml(category.match[matchIdx]);
     document.getElementById("descWhat").innerHTML = " " + escapeHtml(profession.d);
     document.getElementById("descOutlook").innerHTML = " " + escapeHtml(category.outlook[outlookIdx]);
     document.getElementById("descImportance").innerHTML = " " + escapeHtml(category.importance[importanceIdx]);
@@ -1035,6 +1099,32 @@
 
   document.getElementById("resetBtn").addEventListener("click", backToForm);
   backNav.addEventListener("click", backToForm);
+
+  function scrambleIn(){
+    if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var glyphs = "!<>-_\\/[]{}=+*^?#$%&01";
+    var spans = document.querySelectorAll(".gline");
+    spans.forEach(function(span, idx){
+      var final = span.getAttribute("data-final") || span.textContent;
+      var totalFrames = 14, frame = 0;
+      setTimeout(function(){
+        var iv = setInterval(function(){
+          frame++;
+          var revealCount = Math.floor((frame/totalFrames) * final.length);
+          var out = "";
+          for(var i=0;i<final.length;i++){
+            out += (i < revealCount || final[i]===" ") ? final[i] : glyphs[Math.floor(Math.random()*glyphs.length)];
+          }
+          span.textContent = out;
+          if(frame>=totalFrames){
+            span.textContent = final;
+            clearInterval(iv);
+          }
+        }, 45);
+      }, idx*150);
+    });
+  }
+  scrambleIn();
 })();
 </script>
 </body>
