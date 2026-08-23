@@ -383,6 +383,7 @@
 </div>
 
 <script src="names-db.js"></script>
+<script src="profession-facts.js"></script>
 <script>
 (function(){
   "use strict";
@@ -1029,7 +1030,10 @@
     document.getElementById("descWhat").innerHTML = " " + escapeHtml(profession.d);
     document.getElementById("descOutlook").innerHTML = " " + escapeHtml(category.outlook[outlookIdx]);
     document.getElementById("descImportance").innerHTML = " " + escapeHtml(category.importance[importanceIdx]);
-    document.getElementById("descFunfact").textContent = category.funfact[funfactIdx];
+    var fact = (typeof PROFESSION_FACTS === "object" && PROFESSION_FACTS && PROFESSION_FACTS[profession.t])
+      ? PROFESSION_FACTS[profession.t]
+      : category.funfact[funfactIdx];
+    document.getElementById("descFunfact").textContent = fact;
 
     var maturityStat = clamp(status.maturity + randomInt(-1,1), 1, 5);
     var wplywStat = randomInt(3,5);
