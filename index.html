@@ -123,7 +123,7 @@
     border:1px solid var(--fg);border-radius:2px;padding:15px 26px;
     font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
     cursor:pointer;font-family:inherit;background:transparent;color:var(--fg);
-    transition:background .15s,color .15s;
+    text-decoration:none;transition:background .15s,color .15s;
   }
   .btn-primary{width:100%;background:var(--fg);color:#000;}
   .btn-primary:hover{background:var(--accent);border-color:var(--accent);color:#000;}
@@ -393,7 +393,7 @@
     </div>
 
     <div class="actions-row no-print">
-      <button type="button" class="btn btn-secondary" id="regenBtn">Wylosuj inny wariant</button>
+      <a class="btn btn-secondary" id="downloadListBtn" href="50-zawodow-przyszlosci.pdf" download="50-zawodow-przyszlosci.pdf">Pobierz listę zawodów przyszłości</a>
       <button type="button" class="btn btn-secondary" id="printBtn">Drukuj wynik</button>
       <button type="button" class="btn btn-secondary" id="resetBtn">Zacznij od nowa</button>
     </div>
@@ -1140,13 +1140,6 @@
   form.addEventListener("submit", function(e){
     e.preventDefault();
     showScanningThenReveal();
-  });
-
-  document.getElementById("regenBtn").addEventListener("click", function(){
-    generate();
-    result.classList.remove("show");
-    void result.offsetWidth;
-    result.classList.add("show");
   });
 
   document.getElementById("printBtn").addEventListener("click", function(){
