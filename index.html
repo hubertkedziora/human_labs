@@ -178,13 +178,6 @@
 
   .illustration-frame{
     --domain-glow:#21f0ff;
-    --hue-a:0deg;
-    --hue-b:130deg;
-    --kaleido-rot:0deg;
-    --kaleido-seg:8deg;
-    --kaleido-gap:26deg;
-    --kaleido-op:.55;
-    --kaleido-blend:color-dodge;
     position:relative;aspect-ratio:16/10;margin-bottom:22px;overflow:hidden;
     background:linear-gradient(180deg,#170a29 0%,#210c38 42%,#050308 100%);
     border:1px solid var(--line-soft);
@@ -193,20 +186,15 @@
     position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
   }
   .illustration-frame img.layer-a{
-    filter:grayscale(10%) contrast(1.55) saturate(3.2) brightness(.6) hue-rotate(var(--hue-a));
+    filter:grayscale(35%) contrast(1.25) saturate(1.6) brightness(.62);
     transform:scale(1.04);
   }
   .illustration-frame img.layer-b{
-    mix-blend-mode:difference;opacity:.72;
-    filter:hue-rotate(var(--hue-b)) contrast(2.1) saturate(3.4) brightness(.9) blur(.5px);
+    mix-blend-mode:difference;opacity:.6;
+    filter:hue-rotate(130deg) contrast(1.6) saturate(2.1) brightness(.85) blur(.5px);
     transform:scale(1.14) rotate(-3deg) translate(2%,-2%);
   }
-  .illustration-frame .kaleido{
-    position:absolute;inset:-25%;mix-blend-mode:var(--kaleido-blend);opacity:var(--kaleido-op);pointer-events:none;
-    background:repeating-conic-gradient(from var(--kaleido-rot), var(--domain-glow) 0deg var(--kaleido-seg), transparent var(--kaleido-seg) var(--kaleido-gap));
-    filter:blur(1px);
-  }
-  .illustration-frame .tint{position:absolute;inset:0;mix-blend-mode:color;background:var(--domain-glow);opacity:.5;}
+  .illustration-frame .tint{position:absolute;inset:0;mix-blend-mode:color;background:var(--domain-glow);opacity:.45;}
   .illustration-frame .grain{
     position:absolute;inset:0;opacity:.18;mix-blend-mode:overlay;
     background-image:radial-gradient(rgba(255,255,255,.9) 1px, transparent 1px);
@@ -282,7 +270,7 @@
     .fact-block p{color:#000;}
     .dossier-footnote{color:#333;}
     .illustration-frame{background:#fff;border:1px solid #999;}
-    .illustration-frame img,.illustration-frame .tint,.illustration-frame .kaleido,.illustration-frame .grain,.illustration-frame .vignette,.illustration-frame::after,.cat-icon{display:none;}
+    .illustration-frame img,.illustration-frame .tint,.illustration-frame .grain,.illustration-frame .vignette,.illustration-frame::after,.cat-icon{display:none;}
     .sector-tag{color:#000;text-shadow:none;}
     .skills li{color:#000;}
     .skills li::before{color:#333;}
@@ -367,7 +355,6 @@
       <div class="illustration-frame" id="illustrationFrame">
         <img id="jobPhoto" class="layer-a" alt="" loading="lazy">
         <img id="jobPhoto2" class="layer-b" alt="" loading="lazy">
-        <div class="kaleido"></div>
         <div class="tint"></div>
         <div class="grain"></div>
         <div class="vignette"></div>
@@ -1199,14 +1186,6 @@
 
     var frame = document.getElementById("illustrationFrame");
     frame.style.setProperty("--domain-glow", category.glow);
-    frame.style.setProperty("--hue-a", randomInt(-70,70) + "deg");
-    frame.style.setProperty("--hue-b", randomInt(60,300) + "deg");
-    frame.style.setProperty("--kaleido-rot", randomInt(0,359) + "deg");
-    var kaleidoSeg = randomInt(3,16);
-    frame.style.setProperty("--kaleido-seg", kaleidoSeg + "deg");
-    frame.style.setProperty("--kaleido-gap", (kaleidoSeg + randomInt(14,60)) + "deg");
-    frame.style.setProperty("--kaleido-op", (0.28 + Math.random()*0.34).toFixed(2));
-    frame.style.setProperty("--kaleido-blend", sample(["color-dodge","overlay","screen","hard-light"]));
     var seedBase = slugify(profession.t);
     var kw = encodeURIComponent(category.photoKeyword || "abstract");
 
