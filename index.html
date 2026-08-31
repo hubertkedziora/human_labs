@@ -186,15 +186,41 @@
     position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
   }
   .illustration-frame img.layer-a{
-    filter:grayscale(35%) contrast(1.25) saturate(1.6) brightness(.62);
+    filter:grayscale(15%) contrast(1.4) saturate(2.6) brightness(.6) hue-rotate(0deg);
     transform:scale(1.04);
+    animation:hueDriftA 9s linear infinite;
   }
   .illustration-frame img.layer-b{
-    mix-blend-mode:difference;opacity:.6;
-    filter:hue-rotate(130deg) contrast(1.6) saturate(2.1) brightness(.85) blur(.5px);
+    mix-blend-mode:difference;opacity:.68;
+    filter:hue-rotate(130deg) contrast(1.9) saturate(2.8) brightness(.88) blur(.5px);
     transform:scale(1.14) rotate(-3deg) translate(2%,-2%);
+    animation:hueDriftB 13s linear infinite reverse;
   }
-  .illustration-frame .tint{position:absolute;inset:0;mix-blend-mode:color;background:var(--domain-glow);opacity:.45;}
+  @keyframes hueDriftA{
+    from{filter:grayscale(15%) contrast(1.4) saturate(2.6) brightness(.6) hue-rotate(0deg);}
+    to{filter:grayscale(15%) contrast(1.4) saturate(2.6) brightness(.6) hue-rotate(360deg);}
+  }
+  @keyframes hueDriftB{
+    from{filter:hue-rotate(130deg) contrast(1.9) saturate(2.8) brightness(.88) blur(.5px);}
+    to{filter:hue-rotate(490deg) contrast(1.9) saturate(2.8) brightness(.88) blur(.5px);}
+  }
+  .illustration-frame .kaleido{
+    position:absolute;inset:-25%;mix-blend-mode:color-dodge;opacity:.5;pointer-events:none;
+    background:repeating-conic-gradient(from 0deg, var(--domain-glow) 0deg 8deg, transparent 8deg 26deg);
+    animation:kaleidoSpin 22s linear infinite;
+    filter:blur(1px);
+  }
+  @keyframes kaleidoSpin{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  .illustration-frame .tint{
+    position:absolute;inset:0;mix-blend-mode:color;background:var(--domain-glow);opacity:.45;
+    animation:tintPulse 6s ease-in-out infinite;
+  }
+  @keyframes tintPulse{ 0%,100%{opacity:.34;} 50%{opacity:.56;} }
+  @media (prefers-reduced-motion: reduce){
+    .illustration-frame img.layer-a,.illustration-frame img.layer-b,.illustration-frame .kaleido,.illustration-frame .tint{
+      animation:none !important;
+    }
+  }
   .illustration-frame .grain{
     position:absolute;inset:0;opacity:.18;mix-blend-mode:overlay;
     background-image:radial-gradient(rgba(255,255,255,.9) 1px, transparent 1px);
@@ -270,7 +296,7 @@
     .fact-block p{color:#000;}
     .dossier-footnote{color:#333;}
     .illustration-frame{background:#fff;border:1px solid #999;}
-    .illustration-frame img,.illustration-frame .tint,.illustration-frame .grain,.illustration-frame .vignette,.illustration-frame::after,.cat-icon{display:none;}
+    .illustration-frame img,.illustration-frame .tint,.illustration-frame .kaleido,.illustration-frame .grain,.illustration-frame .vignette,.illustration-frame::after,.cat-icon{display:none;}
     .sector-tag{color:#000;text-shadow:none;}
     .skills li{color:#000;}
     .skills li::before{color:#333;}
@@ -355,6 +381,7 @@
       <div class="illustration-frame" id="illustrationFrame">
         <img id="jobPhoto" class="layer-a" alt="" loading="lazy">
         <img id="jobPhoto2" class="layer-b" alt="" loading="lazy">
+        <div class="kaleido"></div>
         <div class="tint"></div>
         <div class="grain"></div>
         <div class="vignette"></div>
@@ -439,34 +466,77 @@
       return ((t ^ t >>> 14) >>> 0) / 4294967296;
     };
   }
+  function hexToHsl(hex){
+    hex = hex.replace("#","");
+    var r = parseInt(hex.substring(0,2),16)/255, g = parseInt(hex.substring(2,4),16)/255, b = parseInt(hex.substring(4,6),16)/255;
+    var max = Math.max(r,g,b), min = Math.min(r,g,b), h, s, l = (max+min)/2;
+    if(max===min){ h = s = 0; }
+    else{
+      var d = max-min;
+      s = l>0.5 ? d/(2-max-min) : d/(max+min);
+      if(max===r) h = (g-b)/d + (g<b?6:0);
+      else if(max===g) h = (b-r)/d + 2;
+      else h = (r-g)/d + 4;
+      h /= 6;
+    }
+    return [h*360, s*100, l*100];
+  }
+  function hslToHex(h,s,l){
+    h = ((h%360)+360)%360/360; s/=100; l/=100;
+    function hue2rgb(p,q,t){
+      if(t<0) t+=1; if(t>1) t-=1;
+      if(t<1/6) return p+(q-p)*6*t;
+      if(t<1/2) return q;
+      if(t<2/3) return p+(q-p)*(2/3-t)*6;
+      return p;
+    }
+    var r,g,b;
+    if(s===0){ r=g=b=l; }
+    else{
+      var q = l<0.5 ? l*(1+s) : l+s-l*s;
+      var p = 2*l-q;
+      r = hue2rgb(p,q,h+1/3); g = hue2rgb(p,q,h); b = hue2rgb(p,q,h-1/3);
+    }
+    function toHex(x){ var v = Math.round(x*255).toString(16); return v.length===1 ? "0"+v : v; }
+    return "#"+toHex(r)+toHex(g)+toHex(b);
+  }
+  function shiftHue(hex, deg){
+    var hsl = hexToHsl(hex);
+    return hslToHex(hsl[0]+deg, clamp(hsl[1]+15,0,100), clamp(hsl[2]+8,15,72));
+  }
+
   // Deterministic, fully offline abstract art per profession — no external image
   // service involved, so illustrations never depend on network reachability.
+  // Uses a triadic palette derived from the category color for a more
+  // psychedelic, multi-hue look instead of a single monochrome tint.
   function generateArtSVG(seedStr, hexColor){
     var rnd = mulberry32(hashSeed(seedStr));
     var w = 900, h = 560;
+    var palette = [hexColor, shiftHue(hexColor,120), shiftHue(hexColor,-120), shiftHue(hexColor,60)];
+    function col(){ return palette[Math.floor(rnd()*palette.length)]; }
     var shapes = "";
-    var motif = Math.floor(rnd()*4);
+    var motif = Math.floor(rnd()*5);
     var cx = w/2 + (rnd()-0.5)*220;
     var cy = h/2 + (rnd()-0.5)*160;
 
     if(motif===0){
-      var rings = 6 + Math.floor(rnd()*7);
+      var rings = 7 + Math.floor(rnd()*8);
       for(var i=0;i<rings;i++){
         var r = 24 + i*(300/rings) + rnd()*22;
         var rot = rnd()*360;
-        shapes += '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+r+'" ry="'+(r*(0.35+rnd()*0.55))+'" transform="rotate('+rot+' '+cx+' '+cy+')" fill="none" stroke="'+hexColor+'" stroke-width="'+(0.6+rnd()*1.8)+'" opacity="'+(0.22+rnd()*0.48)+'"/>';
+        shapes += '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+r+'" ry="'+(r*(0.35+rnd()*0.55))+'" transform="rotate('+rot+' '+cx+' '+cy+')" fill="none" stroke="'+col()+'" stroke-width="'+(0.6+rnd()*2.2)+'" opacity="'+(0.25+rnd()*0.5)+'"/>';
       }
     } else if(motif===1){
-      var lines = 46 + Math.floor(rnd()*70);
+      var lines = 50 + Math.floor(rnd()*80);
       for(var i=0;i<lines;i++){
         var ang = rnd()*Math.PI*2;
         var len = 90 + rnd()*340;
         var x2 = cx + Math.cos(ang)*len;
         var y2 = cy + Math.sin(ang)*len;
-        shapes += '<line x1="'+cx+'" y1="'+cy+'" x2="'+x2+'" y2="'+y2+'" stroke="'+hexColor+'" stroke-width="'+(0.4+rnd()*1.3)+'" opacity="'+(0.14+rnd()*0.34)+'"/>';
+        shapes += '<line x1="'+cx+'" y1="'+cy+'" x2="'+x2+'" y2="'+y2+'" stroke="'+col()+'" stroke-width="'+(0.4+rnd()*1.5)+'" opacity="'+(0.16+rnd()*0.38)+'"/>';
       }
     } else if(motif===2){
-      var count = 5 + Math.floor(rnd()*7);
+      var count = 6 + Math.floor(rnd()*8);
       for(var i=0;i<count;i++){
         var px = rnd()*w, py = rnd()*h, pr = 44+rnd()*230, sides = 3+Math.floor(rnd()*5);
         var pts = "";
@@ -474,22 +544,38 @@
           var a = (s/sides)*Math.PI*2 + rnd()*0.7;
           pts += (px+Math.cos(a)*pr)+","+(py+Math.sin(a)*pr)+" ";
         }
-        shapes += '<polygon points="'+pts.trim()+'" fill="'+hexColor+'" opacity="'+(0.06+rnd()*0.15)+'"/>';
+        shapes += '<polygon points="'+pts.trim()+'" fill="'+col()+'" opacity="'+(0.08+rnd()*0.18)+'"/>';
       }
-    } else {
+    } else if(motif===3){
       var cols = 8 + Math.floor(rnd()*11), rows = 6 + Math.floor(rnd()*9);
       for(var gx=0; gx<=cols; gx++){
         var x = (gx/cols)*w + (rnd()-0.5)*32;
-        shapes += '<line x1="'+x+'" y1="0" x2="'+x+'" y2="'+h+'" stroke="'+hexColor+'" stroke-width="0.5" opacity="'+(0.08+rnd()*0.2)+'"/>';
+        shapes += '<line x1="'+x+'" y1="0" x2="'+x+'" y2="'+h+'" stroke="'+col()+'" stroke-width="0.6" opacity="'+(0.1+rnd()*0.24)+'"/>';
       }
       for(var gy=0; gy<=rows; gy++){
         var y = (gy/rows)*h + (rnd()-0.5)*32;
-        shapes += '<line x1="0" y1="'+y+'" x2="'+w+'" y2="'+y+'" stroke="'+hexColor+'" stroke-width="0.5" opacity="'+(0.08+rnd()*0.2)+'"/>';
+        shapes += '<line x1="0" y1="'+y+'" x2="'+w+'" y2="'+y+'" stroke="'+col()+'" stroke-width="0.6" opacity="'+(0.1+rnd()*0.24)+'"/>';
+      }
+    } else {
+      var arms = 8 + Math.floor(rnd()*10);
+      var turns = 2 + rnd()*3;
+      var steps = 90;
+      for(var a2=0; a2<arms; a2++){
+        var offset = (a2/arms)*Math.PI*2;
+        var pts2 = "";
+        for(var st=0; st<=steps; st++){
+          var tt = st/steps;
+          var ang2 = offset + tt*Math.PI*2*turns;
+          var rad = 10 + tt*300;
+          pts2 += (cx+Math.cos(ang2)*rad)+","+(cy+Math.sin(ang2)*rad)+" ";
+        }
+        shapes += '<polyline points="'+pts2.trim()+'" fill="none" stroke="'+col()+'" stroke-width="'+(0.6+rnd()*1.6)+'" opacity="'+(0.18+rnd()*0.4)+'"/>';
       }
     }
 
+    var c2 = shiftHue(hexColor, 150);
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'">'
-      + '<defs><radialGradient id="g" cx="50%" cy="45%" r="75%"><stop offset="0%" stop-color="'+hexColor+'" stop-opacity="0.35"/><stop offset="100%" stop-color="#050308" stop-opacity="1"/></radialGradient></defs>'
+      + '<defs><radialGradient id="g" cx="50%" cy="45%" r="80%"><stop offset="0%" stop-color="'+hexColor+'" stop-opacity="0.4"/><stop offset="55%" stop-color="'+c2+'" stop-opacity="0.22"/><stop offset="100%" stop-color="#050308" stop-opacity="1"/></radialGradient></defs>'
       + '<rect width="'+w+'" height="'+h+'" fill="url(#g)"/>'
       + shapes
       + '</svg>';
