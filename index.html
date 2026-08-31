@@ -400,7 +400,7 @@
   </div>
 
   <footer class="no-print mono">
-    LAB: Young Digitals · Human Labs · Warsztat · generator działa w pełni offline
+    LAB: Young Digitals · Human Labs · Warsztat · generator działa offline, ilustracje pobierane są z sieci (z lokalnym zastępczym motywem, gdy połączenie jest niedostępne)
   </footer>
 </div>
 
@@ -556,7 +556,7 @@
   };
 
   var CATEGORIES = [
-    { id:"ai", label:"AI, dane i cyfrowe społeczeństwo", glow:"#9b8cf9",
+    { id:"ai", label:"AI, dane i cyfrowe społeczeństwo", glow:"#9b8cf9", photoKeyword:"technology",
       keywords:["ai","sztuczna inteligencja","komputer","program","koduj","dane","algorytm","robot","informatyk","kod","technolog","cyfrow","aplikacj","siec neuronow","uczenie maszynow","automatyzacj","chatbot"],
       skill:"audyt i nadzór nad systemami sztucznej inteligencji",
       tiein:[
@@ -599,7 +599,7 @@
         {t:"Architekt cyfrowych bliźniaków", s:"yellow", d:"Buduje wirtualne, stale aktualizowane repliki fizycznych obiektów, procesów lub organizmów (fabryki, miasta, ciała pacjenta), wykorzystywane do symulacji, prognozowania awarii i testowania scenariuszy „co by było gdyby”."}
       ]
     },
-    { id:"cyber", label:"Cyberbezpieczeństwo, zaufanie i odporność", glow:"#21f0ff",
+    { id:"cyber", label:"Cyberbezpieczeństwo, zaufanie i odporność", glow:"#21f0ff", photoKeyword:"network",
       keywords:["cyberbezpieczenstwo","haker","hakowan","bezpiecz","atak","szyfrowan","haslo","ochrona danych","prywatnosc","wirus komputerow","oszustwo","fake news","dezinformacj","cyberatak","phishing"],
       skill:"ochrona danych, tożsamości i systemów przed nadużyciami",
       tiein:[
@@ -636,7 +636,7 @@
         {t:"Kurator prywatności danych", s:"green", d:"Zarządza cyklem życia danych osobowych w organizacji — od zbierania po usuwanie — godząc wymogi regulacyjne (RODO i pochodne) z potrzebami biznesowymi analityki i personalizacji."}
       ]
     },
-    { id:"health", label:"Zdrowie, długowieczność i człowiek", glow:"#ff2ec4",
+    { id:"health", label:"Zdrowie, długowieczność i człowiek", glow:"#ff2ec4", photoKeyword:"medicine",
       keywords:["zdrow","medyc","lekarz","pomaganie ludziom","pomagam innym","opiek","starsi","pielegniar","dlugowiecznosc","samopoczuci","psycholog","pacjent","terapi","choroba","szpital","dietetyk"],
       skill:"łączenie danych medycznych z realną opieką nad człowiekiem",
       tiein:[
@@ -676,7 +676,7 @@
         {t:"Opiekun-technolog seniorów", s:"blue", d:"Łączy tradycyjną opiekę nad osobami starszymi z obsługą asystentów AI, robotów opiekuńczych i telemedycyny, pomagając seniorom bezpiecznie korzystać z technologii wspierających samodzielność."}
       ]
     },
-    { id:"biotech", label:"Biotechnologia i nowa produkcja", glow:"#5cf7a0",
+    { id:"biotech", label:"Biotechnologia i nowa produkcja", glow:"#5cf7a0", photoKeyword:"laboratory",
       keywords:["biolog","genetyk","dna","naukowiec","eksperyment","produkcj","material","fabryk","chemi","laborator"],
       skill:"praca na styku biologii, inżynierii i produkcji",
       tiein:[
@@ -711,7 +711,7 @@
         {t:"Inżynier tkankowy", s:"yellow", d:"Projektuje i hoduje tkanki oraz organy zastępcze do przeszczepów i testów leków, łącząc biologię, materiałoznawstwo i druk 3D biologiczny."}
       ]
     },
-    { id:"climate", label:"Klimat, energia i planeta", glow:"#ffcf5c",
+    { id:"climate", label:"Klimat, energia i planeta", glow:"#ffcf5c", photoKeyword:"forest",
       keywords:["klimat","ekologi","przyrod","srodowisk","energia odnawialn","elektrowni","energetyk","panele sloneczn","turbin wiatrow","zielon","planet","zwierz","lasy","zalesian","recykling","ochrona srodowiska"],
       skill:"projektowanie infrastruktury odpornej na zmianę klimatu",
       tiein:[
@@ -751,7 +751,7 @@
         {t:"Menedżer ryzyka klimatycznego", s:"green", d:"Ocenia w firmach i instytucjach finansowych ekspozycję na ryzyko fizyczne i regulacyjne związane ze zmianą klimatu oraz doradza w zakresie strategii adaptacji i raportowania ESG."}
       ]
     },
-    { id:"city", label:"Miasta, przestrzeń i mobilność", glow:"#9b8cf9",
+    { id:"city", label:"Miasta, przestrzeń i mobilność", glow:"#9b8cf9", photoKeyword:"architecture",
       keywords:["miast","miejsk","urbanist","architekt","transport","dron","ulic","projektowanie przestrzeni","przestrzen","budynk","budowl"],
       skill:"zarządzanie złożonymi systemami miejskimi i mobilnością",
       tiein:[
@@ -788,7 +788,7 @@
         {t:"Kurator przestrzeni miejskich przyjaznych seniorom", s:"blue", d:"Projektuje i dostosowuje przestrzenie publiczne, transport i usługi do potrzeb starzejącego się społeczeństwa — od ławek z czujnikami zdrowia po nawigację głosową dla osób słabowidzących."}
       ]
     },
-    { id:"law", label:"Prawo, administracja i gospodarka", glow:"#21f0ff",
+    { id:"law", label:"Prawo, administracja i gospodarka", glow:"#21f0ff", photoKeyword:"skyscraper",
       keywords:["prawo","prawnik","sad","sprawiedliwosc","politycz","ekonomi","biznes","finans","pieniadz","podatk","administracj","przepis","negocjacj"],
       skill:"poruszanie się w prawie i regulacjach nowych technologii",
       tiein:[
@@ -825,7 +825,7 @@
         {t:"Specjalista etyki robotyki", s:"yellow", d:"Ocenia projekty robotów współpracujących z ludźmi (w opiece, produkcji, usługach) pod kątem bezpieczeństwa, godności i granic autonomii maszyny wobec człowieka."}
       ]
     },
-    { id:"culture", label:"Edukacja, kultura i relacje", glow:"#ff2ec4",
+    { id:"culture", label:"Edukacja, kultura i relacje", glow:"#ff2ec4", photoKeyword:"art",
       keywords:["sztuk","artystyczn","muzyk","spiew","gra na","gitar","pianin","skrzypc","instrument","koncert","edukacj","nauczani","nauczyciel","kultur","histori","pisani","pisarz","ksiazk","czytani","kreatywn","tworcz","gry","film","rysowan","rysuj","maluj","malow","malarz","malarstw","taniec","tancz","teatr","fotografi","projektowanie graficzne","grafik","design","rzezb"],
       skill:"łączenie technologii z edukacją, kulturą i relacjami międzyludzkimi",
       tiein:[
@@ -875,7 +875,7 @@
         {t:"Rzemieślnik analogowy", s:"blue", d:"W odpowiedzi na pełną cyfryzację i automatyzację odradzają się zawody rękodzielnicze — introligatorstwo, ręczne tkactwo, ceramika — funkcjonujące jako luksusowa, w pełni ludzka nisza i przeciwwaga dla masowej produkcji AI."}
       ]
     },
-    { id:"space", label:"Kosmos i nowe granice", glow:"#5cf7a0",
+    { id:"space", label:"Kosmos i nowe granice", glow:"#5cf7a0", photoKeyword:"galaxy",
       keywords:["kosmos","kosmiczn","gwiazd","rakiet","planet","astronaut","mars","ksiezyc","galaktyk","wszechswiat","satelit","astronom","ufo"],
       skill:"praca w ekstremalnych warunkach poza Ziemią",
       tiein:[
@@ -925,7 +925,7 @@
         {t:"Etyk eksploracji kosmosu", s:"blue", d:"Doradza agencjom i firmom w kwestiach etycznych związanych z kolonizacją, eksploatacją zasobów pozaziemskich i procedurami postępowania na wypadek kontaktu z formami życia pozaziemskiego."}
       ]
     },
-    { id:"unknown", label:"Zawody, których dziś prawie nie umiemy nazwać", glow:"#ffcf5c",
+    { id:"unknown", label:"Zawody, których dziś prawie nie umiemy nazwać", glow:"#ffcf5c", photoKeyword:"fog",
       keywords:["filozof","sens zycia","przyszlosc","nieznane","eksperymentowani","wszystko po trochu","nie wiem","nie mam pojecia","rozne rzeczy"],
       skill:"definiowanie zasad tam, gdzie jeszcze ich nie ma",
       tiein:[
@@ -956,7 +956,7 @@
         {t:"Architekt sensu pracy", s:"blue", d:"Jeśli automatyzacja przejmie coraz większą część produktywności, pojawi się pytanie nie tylko „jak pracować?”, ale „po co?”. Ta rola łączy psychologię, organizację, edukację i projektowanie nowych form uczestnictwa społecznego."}
       ]
     },
-    { id:"food", label:"Rolnictwo i żywność", glow:"#5cf7a0",
+    { id:"food", label:"Rolnictwo i żywność", glow:"#5cf7a0", photoKeyword:"farm",
       keywords:["rolnictw","rolnik","jedzeni","gotowani","kuchni","kulinar","uprawa","uprawi","farm","ogrod","zywnosc","warzyw","hodowl"],
       skill:"produkcja żywności z wykorzystaniem danych i nowych technologii",
       tiein:[
@@ -1119,11 +1119,18 @@
     var frame = document.getElementById("illustrationFrame");
     frame.style.setProperty("--domain-glow", category.glow);
     var seedBase = slugify(profession.t);
+    var kw = encodeURIComponent(category.photoKeyword || "abstract");
+
     var img = document.getElementById("jobPhoto");
-    img.src = generateArtSVG(seedBase, category.glow);
+    var img1Seed = seedBase;
+    img.onerror = function(){ img.onerror = null; img.src = generateArtSVG(img1Seed, category.glow); };
+    img.src = "https://loremflickr.com/900/560/" + kw + "?lock=" + hashSeed(img1Seed);
     img.style.display = "block";
+
     var img2 = document.getElementById("jobPhoto2");
-    img2.src = generateArtSVG(seedBase + "-" + randomInt(1,9999), category.glow);
+    var img2Seed = seedBase + "-" + randomInt(1,9999);
+    img2.onerror = function(){ img2.onerror = null; img2.src = generateArtSVG(img2Seed, category.glow); };
+    img2.src = "https://loremflickr.com/900/560/" + kw + "?lock=" + hashSeed(img2Seed);
     img2.style.display = "block";
     document.getElementById("catIcon").innerHTML = ICONS[category.id] || "";
     document.getElementById("sectorTag").textContent = "SEKTOR: " + category.label.toUpperCase();
