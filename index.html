@@ -400,7 +400,7 @@
   </div>
 
   <footer class="no-print mono">
-    LAB: Young Digitals · Human Labs · Warsztat · generator działa offline, ilustracje wymagają połączenia z internetem
+    LAB: Young Digitals · Human Labs · Warsztat · generator działa w pełni offline
   </footer>
 </div>
 
@@ -421,6 +421,79 @@
   }
   function slugify(str){
     return normalize(str).replace(/[^a-z0-9]+/g,"-").replace(/(^-+|-+$)/g,"");
+  }
+
+  function hashSeed(str){
+    var h = 2166136261;
+    for(var i=0;i<str.length;i++){
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+  function mulberry32(seed){
+    return function(){
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  // Deterministic, fully offline abstract art per profession — no external image
+  // service involved, so illustrations never depend on network reachability.
+  function generateArtSVG(seedStr, hexColor){
+    var rnd = mulberry32(hashSeed(seedStr));
+    var w = 900, h = 560;
+    var shapes = "";
+    var motif = Math.floor(rnd()*4);
+    var cx = w/2 + (rnd()-0.5)*220;
+    var cy = h/2 + (rnd()-0.5)*160;
+
+    if(motif===0){
+      var rings = 6 + Math.floor(rnd()*7);
+      for(var i=0;i<rings;i++){
+        var r = 24 + i*(300/rings) + rnd()*22;
+        var rot = rnd()*360;
+        shapes += '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+r+'" ry="'+(r*(0.35+rnd()*0.55))+'" transform="rotate('+rot+' '+cx+' '+cy+')" fill="none" stroke="'+hexColor+'" stroke-width="'+(0.6+rnd()*1.8)+'" opacity="'+(0.22+rnd()*0.48)+'"/>';
+      }
+    } else if(motif===1){
+      var lines = 46 + Math.floor(rnd()*70);
+      for(var i=0;i<lines;i++){
+        var ang = rnd()*Math.PI*2;
+        var len = 90 + rnd()*340;
+        var x2 = cx + Math.cos(ang)*len;
+        var y2 = cy + Math.sin(ang)*len;
+        shapes += '<line x1="'+cx+'" y1="'+cy+'" x2="'+x2+'" y2="'+y2+'" stroke="'+hexColor+'" stroke-width="'+(0.4+rnd()*1.3)+'" opacity="'+(0.14+rnd()*0.34)+'"/>';
+      }
+    } else if(motif===2){
+      var count = 5 + Math.floor(rnd()*7);
+      for(var i=0;i<count;i++){
+        var px = rnd()*w, py = rnd()*h, pr = 44+rnd()*230, sides = 3+Math.floor(rnd()*5);
+        var pts = "";
+        for(var s=0;s<sides;s++){
+          var a = (s/sides)*Math.PI*2 + rnd()*0.7;
+          pts += (px+Math.cos(a)*pr)+","+(py+Math.sin(a)*pr)+" ";
+        }
+        shapes += '<polygon points="'+pts.trim()+'" fill="'+hexColor+'" opacity="'+(0.06+rnd()*0.15)+'"/>';
+      }
+    } else {
+      var cols = 8 + Math.floor(rnd()*11), rows = 6 + Math.floor(rnd()*9);
+      for(var gx=0; gx<=cols; gx++){
+        var x = (gx/cols)*w + (rnd()-0.5)*32;
+        shapes += '<line x1="'+x+'" y1="0" x2="'+x+'" y2="'+h+'" stroke="'+hexColor+'" stroke-width="0.5" opacity="'+(0.08+rnd()*0.2)+'"/>';
+      }
+      for(var gy=0; gy<=rows; gy++){
+        var y = (gy/rows)*h + (rnd()-0.5)*32;
+        shapes += '<line x1="0" y1="'+y+'" x2="'+w+'" y2="'+y+'" stroke="'+hexColor+'" stroke-width="0.5" opacity="'+(0.08+rnd()*0.2)+'"/>';
+      }
+    }
+
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'">'
+      + '<defs><radialGradient id="g" cx="50%" cy="45%" r="75%"><stop offset="0%" stop-color="'+hexColor+'" stop-opacity="0.35"/><stop offset="100%" stop-color="#050308" stop-opacity="1"/></radialGradient></defs>'
+      + '<rect width="'+w+'" height="'+h+'" fill="url(#g)"/>'
+      + shapes
+      + '</svg>';
+    return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
   }
   function escapeHtml(str){
     return (str||"").replace(/[&<>"']/g, function(c){
@@ -1047,13 +1120,11 @@
     frame.style.setProperty("--domain-glow", category.glow);
     var seedBase = slugify(profession.t);
     var img = document.getElementById("jobPhoto");
-    img.src = "https://picsum.photos/seed/" + seedBase + "/900/560";
-    img.onerror = function(){ img.style.display = "none"; };
-    img.onload = function(){ img.style.display = "block"; };
+    img.src = generateArtSVG(seedBase, category.glow);
+    img.style.display = "block";
     var img2 = document.getElementById("jobPhoto2");
-    img2.src = "https://picsum.photos/seed/" + seedBase + "-" + randomInt(1,9999) + "/900/560";
-    img2.onerror = function(){ img2.style.display = "none"; };
-    img2.onload = function(){ img2.style.display = "block"; };
+    img2.src = generateArtSVG(seedBase + "-" + randomInt(1,9999), category.glow);
+    img2.style.display = "block";
     document.getElementById("catIcon").innerHTML = ICONS[category.id] || "";
     document.getElementById("sectorTag").textContent = "SEKTOR: " + category.label.toUpperCase();
 
